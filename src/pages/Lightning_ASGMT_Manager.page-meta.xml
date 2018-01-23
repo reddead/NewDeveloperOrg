@@ -6,12 +6,17 @@
     <label>Lightning_ASGMT_Manager</label>
     <packageVersions>
         <majorNumber>1</majorNumber>
-        <minorNumber>38</minorNumber>
+        <minorNumber>46</minorNumber>
         <namespace>hed</namespace>
     </packageVersions>
     <packageVersions>
         <majorNumber>1</majorNumber>
-        <minorNumber>12</minorNumber>
+        <minorNumber>15</minorNumber>
         <namespace>sf_chttr_apps</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>1</majorNumber>
+        <minorNumber>7</minorNumber>
+        <namespace>sf_com_apps</namespace>
     </packageVersions>
 </ApexPage>
