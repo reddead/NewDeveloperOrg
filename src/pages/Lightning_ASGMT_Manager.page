@@ -2,5 +2,4 @@
 <script>
 window.location.replace("/one/one.app#/n/Assignment_Manager");
 </script>
-333
 </apex:page>
