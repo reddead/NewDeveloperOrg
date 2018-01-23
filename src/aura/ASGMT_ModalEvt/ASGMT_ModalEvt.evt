@@ -1,0 +1,9 @@
+<aura:event type="COMPONENT" description="Event template">
+	<aura:attribute name="type" type="String"/>
+
+	<!-- recore to save -->
+	<aura:attribute name="record" type="Object"/>
+
+	<!-- for Assignment_Rule_Entry__c -->
+	<aura:attribute name="oldOrder" type="String"/>
+</aura:event>

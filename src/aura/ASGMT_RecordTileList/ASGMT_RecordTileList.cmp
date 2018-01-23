@@ -1,0 +1,63 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="Lightning_ASGMT_DataController" access="global">
+	<ltng:require styles="{!$Resource.Lightning_ASGMT_Asset + '/css/dragula.min.css'}" scripts="{!$Resource.Lightning_ASGMT_Asset + '/js/dragula.min.js'}"/>
+
+	<aura:attribute name="config" type="Object"/>
+
+	<aura:attribute name="filter" type="Object"/>
+
+	<aura:attribute name="pageSize" type="integer" default="12"/>
+	<aura:attribute name="pageNumber" type="integer"/>
+	<aura:attribute name="pageCount" type="integer"/>
+	<aura:attribute name="recordCount" type="integer"/>
+
+	<!-- for retrieving curretn record list -->
+	<aura:attribute name="objectName" type="String"/>
+	<aura:attribute name="records" type="Object[]"/>
+ 	<aura:attribute name="firstValidMember" type="Object" description="for Assignment_Queue_Member__c"/>
+
+	<!-- for retrieving parent record -->
+	<aura:attribute name="parentObjectName" type="String"/>
+	<aura:attribute name="parentRecordId" type="String"/>
+	<aura:attribute name="parentRecord" type="Object"/>
+
+	<aura:attribute name="drake" type="Object"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:handler event="c:ASGMT_HeaderEvt" action="{!c.handleASGMT_HeaderEvt}"/>
+	<aura:handler event="c:ASGMT_FilterEvt" action="{!c.handlerASGMT_FilterEvt}"/>
+	<aura:handler name="ASGMT_ModalEvt" event="c:ASGMT_ModalEvt" action="{!c.handleASGMT_ModalEvt}"/>
+	<aura:handler name="ASGMT_RecordTileEvt" event="c:ASGMT_RecordTileEvt" action="{!c.handleASGMT_RecordTileEvt}"/>
+
+	<aura:dependency resource="markup://c:ASGMT_ModalCustomForm"/>
+	<aura:dependency resource="markup://c:ASGMT_ModalCriteriaSet"/>
+
+	<aura:if isTrue="{!v.parentRecordId!=null}">
+		<div>
+			<ul class="slds-grid slds-grid--pull-padded slds-wrap">
+				<c:ASGMT_RecordTile config="{!v.config}" objectName="{!v.parentObjectName}" record="{!v.parentRecord}" index="-1"/>
+			</ul>
+		</div>
+	</aura:if>
+
+	<c:Util_Spinner type="medium" show="false" spinnerContainerClass="fixed-position" aura:id="spinner"/>
+	<div class="{!'record-tile-list '+(v.objectName=='Assignment_Rule_Entry__c'||v.objectName=='Assignment_Queue_Member__c'?'child-record-tile-list':'')}">
+
+		<!-- <ul aura:id="list" class="slds-grid slds-grid_pull-padded slds-wrap tile-list" id="tile-list"> -->
+		<ul aura:id="list" class="{!'slds-grid slds-grid_pull-padded slds-wrap tile-list '+(v.objectName=='Assignment_Rule_Entry__c'?'slds-p-horizontal_small':'')}" id="tile-list">
+			<aura:iteration items="{!v.records}" var="record" indexVar="index">
+				<c:ASGMT_RecordTile config="{!v.config}" objectName="{!v.objectName}" parentRecord="{!v.parentRecord}" record="{#record}" index="{#index+1}" pageNumber="{!v.pageNumber}" firstValidMember="{!v.firstValidMember}"/>
+			</aura:iteration>
+		</ul>
+
+		<aura:if isTrue="{!!empty(v.recordCount)}">
+			<c:ASGMT_Paginator pageNumber="{!v.pageNumber}" pageCount="{!v.pageCount}" recordCount="{!v.recordCount}" label="records" previousPage="{!c.onPreviousPage}" nextPage="{!c.onNextPage}"/>
+		</aura:if>
+		<aura:if isTrue="{!!empty(v.recordCount)&amp;&amp;v.parentRecordId!=null}">
+			<div style=" text-align:center">
+				<lightning:button label="Back" onclick="{!c.back}"/>
+			</div>
+		</aura:if>
+
+	</div>
+	<div aura:id="ModalPlaceholder"/>
+</aura:component>

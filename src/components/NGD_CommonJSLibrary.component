@@ -1,0 +1,69 @@
+<apex:component layout="none">
+    <!--sforce for dependent picklist-->
+    <apex:includescript value="/soap/ajax/35.0/connection.js"></apex:includescript>
+    <!--sforce-->
+
+    <!--forcetk-->
+    <!--<apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/libs/forcetk.js')}"></apex:includescript>-->
+    <!--forcetk-->
+
+    <!--jquery-->
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></apex:includescript>
+    <!--jquery-->
+
+    <!--angularjs-->
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.8/angular-sanitize.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.8/angular-messages.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/1.3.0/angular-drag-and-drop-lists.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.6/smart-table.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/11.0.1/ng-file-upload.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/checklist-model/0.9.0/checklist-model.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/angular-multi-select/4.0.0/isteven-multi-select.min.js"></apex:includescript>
+    <!--angularjs-->
+
+    <!--ngForce-->
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/libs/ngForce/ngForce.min.js')}"></apex:includescript>
+    <apex:includescript value="{!if(contains($Api.Session_ID,'NULL'),'',URLFOR($Page.NGD_Config))}"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></apex:includescript>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/restangular/1.5.1/restangular.min.js"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/libs/ngForce/safeApply.js')}"></apex:includescript>
+    <!--ngForce-->
+
+    <!--sweetalert-->
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></apex:includescript>
+    <!--sweetalert-->
+
+    <!--custom js-->
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/applications/application.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/services/DataService.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/services/DirectiveService.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/services/ViewService.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/services/ERxFormService.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/directives/FormDirectives.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/directives/directive.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/directives/FormDirectives_deprecated.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/filters/filters.js')}"></apex:includescript>
+    <apex:includescript value="{!URLFOR($Resource.NGD_Utilities, '/js/libs/utilities.js')}"></apex:includescript>
+    <!--custom js-->
+
+    <!--svg4everybody-->
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/svg4everybody/2.0.0/svg4everybody.min.js"></apex:includescript>
+    <script>svg4everybody();</script>
+    <!--svg4everybody-->
+
+    <!--Homepae Builder-->
+    <!--gridstack-->
+    <apex:includescript value="{!if(OR(CONTAINS(LOWER($CurrentPage.Name),'ngd_communityhome'),CONTAINS(LOWER($CurrentPage.Name),'ngd_homepagebuilder_manage')),'https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.2.5/gridstack.min.js','')}"></apex:includescript>
+    <!--gridstack-->
+    <apex:includescript value="{!if(CONTAINS(LOWER($CurrentPage.Name),'ngd_homepagebuilder_manage'),URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/common.js'),'')}"></apex:includescript>
+    <!--Homepae Builder-->
+
+    <!--CommunityHome-->
+    <apex:includescript value="{!if(CONTAINS(LOWER($CurrentPage.Name),'ngd_communityhome'),URLFOR($Resource.NGD_CommunityAssets, '/js/common.js'),'')}"></apex:includescript>
+    <!--CommunityHome-->
+</apex:component>

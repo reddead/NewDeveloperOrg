@@ -1,0 +1,12 @@
+.THIS.bar1 {
+    margin-bottom: 1rem;
+    box-shadow: 2px 2px 5px black;
+    border-radius: 3px;
+    padding: 1rem;
+    font-weight: normal;
+    justify-content: flex-start;
+}
+
+.THIS .slds-backdrop_open {
+  opacity: .8;
+}

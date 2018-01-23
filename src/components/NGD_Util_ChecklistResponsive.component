@@ -1,0 +1,224 @@
+<apex:component layout="none">
+    <style>
+        @media only screen and (min-width: 1645px) {
+            nav.nav-responsive {
+                display: none !important;
+            }
+
+            nav.nav-normal {
+                width: 300px;
+                left: -350px;
+            }
+
+                nav.nav-normal ul, nav.nav-normal .horiz-flag {
+                    padding-left: 25px;
+                }
+        }
+
+        @media only screen and (min-width: 1416px) and (max-width: 1644px) {
+            nav.nav-responsive {
+                display: none;
+            }
+
+            nav.nav-normal {
+                width: 215px !important;
+                left: -235px !important;
+                padding-left: 0px;
+            }
+
+                nav.nav-normal ul, nav.nav-normal .horiz-flag {
+                    padding-left: 26px;
+                }
+        }
+
+
+        @media only screen and (min-width: 511px) and (max-width: 1415px) {
+            nav.nav-normal {
+                display: none !important;
+            }
+
+            nav.nav-responsive {
+                display: block;
+                padding-bottom: 40px;
+            }
+
+                nav.nav-responsive .horiz-flag {
+                    display: block !important;
+                    margin-bottom: 1px;
+                }
+
+                nav.nav-responsive ul {
+                    display: table !important;
+                }
+
+                nav.nav-responsive li {
+                    width: 50%;
+                    float: left;
+                }
+        }
+
+        @media only screen and (max-width: 510px) {
+
+            nav.nav-normal {
+                display: none !important;
+            }
+
+            nav.nav-responsive {
+                display: block;
+                padding-bottom: 30px;
+            }
+
+            .pull-label {
+                margin-bottom: 0px !important;
+                vertical-align: middle;
+            }
+
+            nav.nav-responsive .horiz-flag {
+                display: none !important;
+            }
+
+            nav.nav-responsive ul {
+                display: none;
+            }
+
+            nav.nav-responsive li {
+                width: 100%;
+                float: none;
+            }
+
+            nav.nav-responsive a#pull {
+                display: block !important;
+                margin-bottom: 5px;
+            }
+        }
+
+
+        nav.nav-normal {
+            position: absolute;
+            padding-bottom: 80px;
+        }
+
+        nav.nav-responsive .horiz-flag {
+            display: none;
+        }
+
+        nav.nav-responsive a#pull {
+            display: none;
+            text-decoration: none;
+        }
+
+        .nav-normal li, .nav-responsive li {
+            line-height: 30px;
+        }
+
+        nav.nav-responsive .horiz-flag, nav.nav-responsive ul, nav.nav-responsive a#pull {
+            padding-left: 9.5%;
+        }
+
+        .checklist-label {
+            color: #0070D2;
+            text-decoration: none;
+            transition: color 0.1s linear 0s;
+        }
+
+        .checklist-input {
+            border: 1px solid #D8DDE6 !important;
+            background: #FFF none repeat scroll 0% 0% !important;
+        }
+
+        nav li img.slds-icon--x-small {
+            vertical-align:text-top;
+        }
+
+        .paper {
+            margin: 20px auto;
+            padding-top: 38px;
+            padding-left: 10px;
+            /*padding-right: 10px;*/
+            border: 1px solid #F0F0F0;
+            /* gradients - second red border, first red border, top white space, blue lines */
+            background-image: -webkit-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -webkit-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -webkit-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -webkit-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+            background-image: -moz-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -moz-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -moz-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -moz-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+            background-image: -ms-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -ms-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -ms-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -ms-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+            background-image: -o-linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), -o-linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), -o-linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), -o-repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+            background-image: linear-gradient(left, rgba(255,85,91, .2), rgba(255,85,91, .2)), linear-gradient(left, rgba(255,85,91, .8), rgba(255,85,91, .8)), linear-gradient(top, white 0px, white 69px, rgba(255,255,255,0) 70px), repeating-linear-gradient(white 0px, white 18px, #A6FFED 19px, white 20px);
+            background-size: 1px, 1px, auto, auto 20px;
+            background-repeat: repeat-y, repeat-y, no-repeat, repeat;
+            background-position: 90% 0px, 10% 0px, 0px 0px, 0px 0px;
+            -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+            .paper:first-line {
+                line-height: 33px;
+                vertical-align: baseline;
+            }
+
+            .paper:after {
+                content: '';
+                display: block;
+                width: 20px;
+                height: 20px;
+                border-radius: 10px;
+                position: absolute;
+                background: rgba(255,255,255,1);
+                top: 64px;
+                margin-left: 3px;
+                z-index: 10;
+                -webkit-box-shadow: inset 2px 2px 5px rgba(125,125,125,1);
+                -moz-box-shadow: inset 2px 2px 5px rgba(125,125,125,1);
+                box-shadow: inset 2px 2px 5px rgba(125,125,125,1);
+            }
+    </style>
+    <nav class="nav-responsive paper">
+        <a href="#" id="pull">
+            <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/rows_120.png')}" width="26px" height="26px" />
+            <span> <h1 class="slds-form-element__label slds-text-heading--medium pull-label">Checklist</h1></span>
+        </a>
+        <span class="horiz-flag noise "> <h1 class="slds-form-element__label slds-text-heading--medium">Checklist</h1></span>
+        <ul>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/check_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/check_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/check_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/close_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/close_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/close_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+        </ul>
+    </nav>
+    <nav class="nav-normal paper">
+        <span class="horiz-flag noise "> <h1 class="slds-form-element__label slds-text-heading--medium">Checklist</h1></span>
+        <ul>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/check_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/check_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/check_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/close_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/close_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+            <li>
+                <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility/close_120.png')}" class="slds-icon--x-small" /><span class="checklist-label">Checklist Item</span>
+            </li>
+        </ul>
+    </nav>
+</apex:component>

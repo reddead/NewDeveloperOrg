@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Event template">
+	<aura:attribute name="objectName" type="String"/>
+	<aura:attribute name="Name" type="String"/>
+	<aura:attribute name="Related_Object__c" type="String"/>
+</aura:event>

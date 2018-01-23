@@ -1,0 +1,22 @@
+.THIS .show {
+    display : block;
+}
+.THIS .hide {
+    display : none;
+}
+.THIS .spinner-text{
+	margin-top: 41px;
+    position: absolute;
+}
+
+.THIS.slds-spinner_container{
+  background-color: transparent;
+}
+
+.THIS.fixed-position{
+  position: fixed;
+}
+
+.THIS.margin-top{
+  margin-top: 50px;
+}

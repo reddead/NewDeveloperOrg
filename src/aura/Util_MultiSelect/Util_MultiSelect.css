@@ -1,0 +1,38 @@
+.THIS .select-all {
+	background-color: aliceblue;
+}
+
+.THIS.slds-picklist, .THIS .slds-picklist__label {
+	width: 100%;
+}
+
+.THIS .slds-icon-utility-down, .THIS .slds-icon-utility-down .slds-icon, .THIS .slds-picklist__label .slds-truncate, .THIS .slds-dropdown__item * {
+	pointer-events: none;
+	font-size: 13px;
+}
+
+.THIS .slds-dropdown__item {
+	cursor: pointer;
+}
+
+.THIS .slds-button--neutral:focus {
+	outline: 0;
+	border-color: rgb(21, 137, 238);
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0 0 3px #0070d2;
+	color: rgb(22, 50, 92);
+}
+
+.THIS .slds-button--neutral:hover {
+	background-color: rgb(255, 255, 255);
+	color: rgb(22, 50, 92);
+}
+
+.THIS .slds-dropdown {
+	width: auto;
+	width: initial;
+}
+
+.THIS .slds-picklist__label>.slds-truncate {
+	white-space:normal;
+}

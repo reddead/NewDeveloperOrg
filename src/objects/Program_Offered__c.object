@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Area_of_Major__c</fullName>
+        <externalId>false</externalId>
+        <label>Area of Major</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Accounting</fullName>
+                    <default>false</default>
+                    <label>Accounting</label>
+                </value>
+                <value>
+                    <fullName>Administration of Justice</fullName>
+                    <default>false</default>
+                    <label>Administration of Justice</label>
+                </value>
+                <value>
+                    <fullName>American Indian Studies</fullName>
+                    <default>false</default>
+                    <label>American Indian Studies</label>
+                </value>
+                <value>
+                    <fullName>Anthropology</fullName>
+                    <default>false</default>
+                    <label>Anthropology</label>
+                </value>
+                <value>
+                    <fullName>Astronomy</fullName>
+                    <default>false</default>
+                    <label>Astronomy</label>
+                </value>
+                <value>
+                    <fullName>Automotive Technology</fullName>
+                    <default>false</default>
+                    <label>Automotive Technology</label>
+                </value>
+                <value>
+                    <fullName>Aviation Technology</fullName>
+                    <default>false</default>
+                    <label>Aviation Technology</label>
+                </value>
+                <value>
+                    <fullName>Biochemistry</fullName>
+                    <default>false</default>
+                    <label>Biochemistry</label>
+                </value>
+                <value>
+                    <fullName>Biology</fullName>
+                    <default>false</default>
+                    <label>Biology</label>
+                </value>
+                <value>
+                    <fullName>Biotechnology</fullName>
+                    <default>false</default>
+                    <label>Biotechnology</label>
+                </value>
+                <value>
+                    <fullName>Building and Construction Technology</fullName>
+                    <default>false</default>
+                    <label>Building and Construction Technology</label>
+                </value>
+                <value>
+                    <fullName>Business</fullName>
+                    <default>false</default>
+                    <label>Business</label>
+                </value>
+                <value>
+                    <fullName>Chemistry</fullName>
+                    <default>false</default>
+                    <label>Chemistry</label>
+                </value>
+                <value>
+                    <fullName>Clinical Research Coordinator</fullName>
+                    <default>false</default>
+                    <label>Clinical Research Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Communication</fullName>
+                    <default>false</default>
+                    <label>Communication</label>
+                </value>
+                <value>
+                    <fullName>Computer Aided Drafting</fullName>
+                    <default>false</default>
+                    <label>Computer Aided Drafting</label>
+                </value>
+                <value>
+                    <fullName>Computer Information Systems</fullName>
+                    <default>false</default>
+                    <label>Computer Information Systems</label>
+                </value>
+                <value>
+                    <fullName>Culinary Arts</fullName>
+                    <default>false</default>
+                    <label>Culinary Arts</label>
+                </value>
+                <value>
+                    <fullName>Dental Studies</fullName>
+                    <default>false</default>
+                    <label>Dental Studies</label>
+                </value>
+                <value>
+                    <fullName>Digital Arts</fullName>
+                    <default>false</default>
+                    <label>Digital Arts</label>
+                </value>
+                <value>
+                    <fullName>Direct Care Professional</fullName>
+                    <default>false</default>
+                    <label>Direct Care Professional</label>
+                </value>
+                <value>
+                    <fullName>Early Childhood Education</fullName>
+                    <default>false</default>
+                    <label>Early Childhood Education</label>
+                </value>
+                <value>
+                    <fullName>Educational Technology</fullName>
+                    <default>false</default>
+                    <label>Educational Technology</label>
+                </value>
+                <value>
+                    <fullName>Emergency Medical Technology</fullName>
+                    <default>false</default>
+                    <label>Emergency Medical Technology</label>
+                </value>
+                <value>
+                    <fullName>Engineering</fullName>
+                    <default>false</default>
+                    <label>Engineering</label>
+                </value>
+                <value>
+                    <fullName>English</fullName>
+                    <default>false</default>
+                    <label>English</label>
+                </value>
+                <value>
+                    <fullName>Fashion Design</fullName>
+                    <default>false</default>
+                    <label>Fashion Design</label>
+                </value>
+                <value>
+                    <fullName>Field Archeology</fullName>
+                    <default>false</default>
+                    <label>Field Archeology</label>
+                </value>
+                <value>
+                    <fullName>Fine Arts</fullName>
+                    <default>false</default>
+                    <label>Fine Arts</label>
+                </value>
+                <value>
+                    <fullName>Fire Science</fullName>
+                    <default>false</default>
+                    <label>Fire Science</label>
+                </value>
+                <value>
+                    <fullName>Fitness and Sport Sciences</fullName>
+                    <default>false</default>
+                    <label>Fitness and Sport Sciences</label>
+                </value>
+                <value>
+                    <fullName>Fraud Examination</fullName>
+                    <default>false</default>
+                    <label>Fraud Examination</label>
+                </value>
+                <value>
+                    <fullName>General Studies (Non-Transfer)</fullName>
+                    <default>false</default>
+                    <label>General Studies (Non-Transfer)</label>
+                </value>
+                <value>
+                    <fullName>General Studies (Transfer)</fullName>
+                    <default>false</default>
+                    <label>General Studies (Transfer)</label>
+                </value>
+                <value>
+                    <fullName>Geography</fullName>
+                    <default>false</default>
+                    <label>Geography</label>
+                </value>
+                <value>
+                    <fullName>Geology</fullName>
+                    <default>false</default>
+                    <label>Geology</label>
+                </value>
+                <value>
+                    <fullName>Health Information Technology</fullName>
+                    <default>false</default>
+                    <label>Health Information Technology</label>
+                </value>
+                <value>
+                    <fullName>History</fullName>
+                    <default>false</default>
+                    <label>History</label>
+                </value>
+                <value>
+                    <fullName>Hotel and Restaurant Management</fullName>
+                    <default>false</default>
+                    <label>Hotel and Restaurant Management</label>
+                </value>
+                <value>
+                    <fullName>Human Resources</fullName>
+                    <default>false</default>
+                    <label>Human Resources</label>
+                </value>
+                <value>
+                    <fullName>Journalism</fullName>
+                    <default>false</default>
+                    <label>Journalism</label>
+                </value>
+                <value>
+                    <fullName>Law Enforcement</fullName>
+                    <default>false</default>
+                    <label>Law Enforcement</label>
+                </value>
+                <value>
+                    <fullName>Liberal Arts</fullName>
+                    <default>false</default>
+                    <label>Liberal Arts</label>
+                </value>
+                <value>
+                    <fullName>Logistics and Supply Chain Management</fullName>
+                    <default>false</default>
+                    <label>Logistics and Supply Chain Management</label>
+                </value>
+                <value>
+                    <fullName>Machine Tool Technology</fullName>
+                    <default>false</default>
+                    <label>Machine Tool Technology</label>
+                </value>
+                <value>
+                    <fullName>Management</fullName>
+                    <default>false</default>
+                    <label>Management</label>
+                </value>
+                <value>
+                    <fullName>Marketing</fullName>
+                    <default>false</default>
+                    <label>Marketing</label>
+                </value>
+                <value>
+                    <fullName>Mathematics</fullName>
+                    <default>false</default>
+                    <label>Mathematics</label>
+                </value>
+                <value>
+                    <fullName>Medical Assistant</fullName>
+                    <default>false</default>
+                    <label>Medical Assistant</label>
+                </value>
+                <value>
+                    <fullName>Medical Laboratory Technician</fullName>
+                    <default>false</default>
+                    <label>Medical Laboratory Technician</label>
+                </value>
+                <value>
+                    <fullName>Microbiology</fullName>
+                    <default>false</default>
+                    <label>Microbiology</label>
+                </value>
+                <value>
+                    <fullName>Molecular/Cellular Biology</fullName>
+                    <default>false</default>
+                    <label>Molecular/Cellular Biology</label>
+                </value>
+                <value>
+                    <fullName>Nursing</fullName>
+                    <default>false</default>
+                    <label>Nursing</label>
+                </value>
+                <value>
+                    <fullName>Paralegal</fullName>
+                    <default>false</default>
+                    <label>Paralegal</label>
+                </value>
+                <value>
+                    <fullName>Pharmacy Technology</fullName>
+                    <default>false</default>
+                    <label>Pharmacy Technology</label>
+                </value>
+                <value>
+                    <fullName>Phelbotomy</fullName>
+                    <default>false</default>
+                    <label>Phelbotomy</label>
+                </value>
+                <value>
+                    <fullName>Philosophy</fullName>
+                    <default>false</default>
+                    <label>Philosophy</label>
+                </value>
+                <value>
+                    <fullName>Physics</fullName>
+                    <default>false</default>
+                    <label>Physics</label>
+                </value>
+                <value>
+                    <fullName>Political Science</fullName>
+                    <default>false</default>
+                    <label>Political Science</label>
+                </value>
+                <value>
+                    <fullName>Pre-Agriculture</fullName>
+                    <default>false</default>
+                    <label>Pre-Agriculture</label>
+                </value>
+                <value>
+                    <fullName>Pre-Law</fullName>
+                    <default>false</default>
+                    <label>Pre-Law</label>
+                </value>
+                <value>
+                    <fullName>Pre-Medicine or Science (General)</fullName>
+                    <default>false</default>
+                    <label>Pre-Medicine or Science (General)</label>
+                </value>
+                <value>
+                    <fullName>Psychology</fullName>
+                    <default>false</default>
+                    <label>Psychology</label>
+                </value>
+                <value>
+                    <fullName>Radiologic Technology</fullName>
+                    <default>false</default>
+                    <label>Radiologic Technology</label>
+                </value>
+                <value>
+                    <fullName>Religion</fullName>
+                    <default>false</default>
+                    <label>Religion</label>
+                </value>
+                <value>
+                    <fullName>Respiratory Care</fullName>
+                    <default>false</default>
+                    <label>Respiratory Care</label>
+                </value>
+                <value>
+                    <fullName>Sign Language Interpreter Training</fullName>
+                    <default>false</default>
+                    <label>Sign Language Interpreter Training</label>
+                </value>
+                <value>
+                    <fullName>Social Services</fullName>
+                    <default>false</default>
+                    <label>Social Services</label>
+                </value>
+                <value>
+                    <fullName>Sociology</fullName>
+                    <default>false</default>
+                    <label>Sociology</label>
+                </value>
+                <value>
+                    <fullName>Spanish and other World Languages</fullName>
+                    <default>false</default>
+                    <label>Spanish and other World Languages</label>
+                </value>
+                <value>
+                    <fullName>Teacher Education</fullName>
+                    <default>false</default>
+                    <label>Teacher Education</label>
+                </value>
+                <value>
+                    <fullName>Technical Writing and Communication</fullName>
+                    <default>false</default>
+                    <label>Technical Writing and Communication</label>
+                </value>
+                <value>
+                    <fullName>Technology</fullName>
+                    <default>false</default>
+                    <label>Technology</label>
+                </value>
+                <value>
+                    <fullName>Therapeutic Massage</fullName>
+                    <default>false</default>
+                    <label>Therapeutic Massage</label>
+                </value>
+                <value>
+                    <fullName>Truck Driver Training</fullName>
+                    <default>false</default>
+                    <label>Truck Driver Training</label>
+                </value>
+                <value>
+                    <fullName>Veterinary Science</fullName>
+                    <default>false</default>
+                    <label>Veterinary Science</label>
+                </value>
+                <value>
+                    <fullName>Welding</fullName>
+                    <default>false</default>
+                    <label>Welding</label>
+                </value>
+                <value>
+                    <fullName>Translation and Interpretation Studies (Spanish)</fullName>
+                    <default>false</default>
+                    <label>Translation and Interpretation Studies (Spanish)</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Area_of_Study__c</fullName>
+        <externalId>false</externalId>
+        <label>Area of Study</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Arts, Humanities &amp; Communication</fullName>
+                    <default>false</default>
+                    <label>Arts, Humanities &amp; Communication</label>
+                </value>
+                <value>
+                    <fullName>Business Programs</fullName>
+                    <default>false</default>
+                    <label>Business Programs</label>
+                </value>
+                <value>
+                    <fullName>Computer Information Technology</fullName>
+                    <default>false</default>
+                    <label>Computer Information Technology</label>
+                </value>
+                <value>
+                    <fullName>Education Programs</fullName>
+                    <default>false</default>
+                    <label>Education Programs</label>
+                </value>
+                <value>
+                    <fullName>General Studies or Undecided</fullName>
+                    <default>false</default>
+                    <label>General Studies or Undecided</label>
+                </value>
+                <value>
+                    <fullName>Health-Related Professions</fullName>
+                    <default>false</default>
+                    <label>Health-Related Professions</label>
+                </value>
+                <value>
+                    <fullName>Public Safety Programs</fullName>
+                    <default>false</default>
+                    <label>Public Safety Programs</label>
+                </value>
+                <value>
+                    <fullName>Science &amp; Engineering</fullName>
+                    <default>false</default>
+                    <label>Science &amp; Engineering</label>
+                </value>
+                <value>
+                    <fullName>Social Sciences</fullName>
+                    <default>false</default>
+                    <label>Social Sciences</label>
+                </value>
+                <value>
+                    <fullName>Trade Professions</fullName>
+                    <default>false</default>
+                    <label>Trade Professions</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Program_Offered_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Program Offered Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Selective_Admissions__c</fullName>
+        <externalId>false</externalId>
+        <label>Selective Admissions</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                    <label>Yes</label>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                    <label>No</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Program Offered</label>
+    <nameField>
+        <label>Program Offered Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Programs Offered</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

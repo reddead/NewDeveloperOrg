@@ -1,0 +1,30 @@
+<apex:page standardstylesheets="false" showheader="false" sidebar="false" applyhtmltag="false" applybodytag="false" doctype="html-5.0">
+  <c:NGD_CommonCSSLibrary />
+  <apex:stylesheet value="{!URLFOR($Resource.NGD_CommunityAssets, '/css/common.css')}"/>
+  <c:NGD_CommonJSLibrary />
+  <apex:includescript value="{!URLFOR($Resource.NGD_CommunityAssets, '/js/common.js')}"></apex:includescript>
+  <div id="container" class="slds">
+    <div class="slds-backdrop loading-image">
+      <img src="{!URLFOR($Resource.NGD_SLDS, '/assets/images/spinners/slds_spinner_brand.gif')}" alt="Loading..."/>
+    </div>
+
+    <!--  Header Start  -->
+    <div id="header">
+      <div id="logout">
+        <apex:outputlink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!ISPICKVAL($User.UserType,'CspLitePortal')}">{!$Label.site.logout}</apex:outputlink>
+      </div>
+    </div>
+    <!--  Header End  -->
+
+    <!--  Body Start -->
+    <div id="content">
+      <apex:insert name="body"/>
+    </div>
+    <!--  Body End -->
+
+    <!--  Footer Start  -->
+    <div id="footer"></div>
+    <!--  Footer End  -->
+
+  </div>
+</apex:page>

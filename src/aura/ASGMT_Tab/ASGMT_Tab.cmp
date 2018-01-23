@@ -1,0 +1,50 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+
+	<aura:attribute name="selectedTabId" type="String" default="Assignment_Rule__c"/>
+
+	<aura:registerEvent name="tabChange" type="c:ASGMT_TabEvt"/>
+
+	<aura:dependency resource="markup://c:ASGMT_RecordTileList"/>
+
+	<lightning:tabset selectedTabId="{!v.selectedTabId}" class="slds-tabs_card">
+		<lightning:tab onactive="{!c.handleOnActive}" id="Assignment_Rule__c" aura:id="Assignment_Rule__c">
+			<aura:set attribute="label">
+				<lightning:icon iconName="utility:tile_card_list" size="x-small"/>
+				Assignment Rule
+			</aura:set>
+		</lightning:tab>
+		<lightning:tab onactive="{!c.handleOnActive}" id="Assignment_Queue__c" aura:id="Assignment_Queue__c">
+			<aura:set attribute="label">
+				<lightning:icon iconName="utility:tile_card_list" size="x-small"/>
+				Assignment Queue
+			</aura:set>
+		</lightning:tab>
+	</lightning:tabset>
+
+	<!-- <aura:attribute name="selectedTabId" type="String"/>
+	<aura:attribute name="ruleFilter" type="Object"/>
+	<aura:attribute name="queueFilter" type="Object"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<lightning:tabset selectedTabId="{!v.selectedTabId}">
+		<lightning:tab onactive="{!c.handleOnActive}" id="Assignment_Rule__c" aura:id="Assignment_Rule__c">
+			<aura:set attribute="label">
+				<lightning:icon iconName="utility:tile_card_list" class="slds-icon_small"/>
+				Assignment Rule
+			</aura:set>
+			<aura:set attribute="body">
+				<c:Assignment_TileList relatedObject="Assignment_Rule__c" filter="{!v.ruleFilter}"/>
+			</aura:set>
+		</lightning:tab>
+		<lightning:tab onactive="{!c.handleOnActive}" id="Assignment_Queue__c" aura:id="Assignment_Queue__c">
+			<aura:set attribute="label">
+				<lightning:icon iconName="utility:tile_card_list" class="slds-icon_small"/>
+				Assignment Queue
+			</aura:set>
+			<aura:set attribute="body">
+				<c:Assignment_TileList relatedObject="Assignment_Queue__c" filter="{!v.queueFilter}"/>
+			</aura:set>
+		</lightning:tab>
+	</lightning:tabset> -->
+
+</aura:component>

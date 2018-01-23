@@ -1,0 +1,42 @@
+<apex:page standardstylesheets="false" showheader="false" sidebar="false" applyhtmltag="false" applybodytag="false" doctype="html-5.0">
+	<html>
+		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+			<c:NGD_CommonCSSLibrary />
+			<c:NGD_CommonJSLibrary />
+
+		</head>
+		<body>
+			<div id="dz-container" class="slds" style="margin: 0 auto;">
+
+				<div class="slds-backdrop loading-image">
+					<img src="{!URLFOR($Resource.NGD_SLDS, '/assets/images/spinners/slds_spinner_brand.gif')}" alt="Loading..."/>
+				</div>
+
+				<!-- Header Start -->
+				<div id="dz-header">
+					<div id="dz-logout">
+		        <apex:outputlink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!ISPICKVAL($User.UserType,'CspLitePortal')}">{!$Label.site.logout}</apex:outputlink>
+		      </div>
+					<apex:insert name="header"/>
+				</div>
+				<!-- Header End -->
+
+				<!-- Body Start -->
+				<div id="dz-content">
+					<apex:insert name="body"/>
+				</div>
+				<!-- Body End -->
+
+				<!-- Footer Start -->
+				<div id="dz-footer">
+					<apex:insert name="footer"/>
+				</div>
+				<!-- Footer End -->
+
+			</div>
+		</body>
+	</html>
+</apex:page>

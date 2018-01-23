@@ -1,0 +1,70 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+	<ltng:require scripts="{!$Resource.Lightning_ASGMT_Asset + '/js/jquery.min.js'}"/>
+
+	<aura:attribute name="objectName" type="String" default="Assignment_Rule__c"/>
+
+	<aura:handler event="c:ASGMT_TabEvt" action="{!c.handleTabChangeEvt}"/>
+
+	<c:ASGMT_Header />
+
+	<div class="slds-grid slds-wrap content">
+		<div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 col1">
+			<c:ASGMT_Tab />
+		</div>
+
+		<div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 col2">
+			<aura:if isTrue="{!v.objectName=='Assignment_Rule__c'}">
+			<div class="side-help">
+				<div class="landing__section-content slds-tabs_card">
+					<h2 class="landing__heading_small slds-text-title_caps slds-m-bottom--small">Assignment Rule</h2>
+					<p>
+						Automatically assign SObject record to users or assignment queues based on criteria you define. You can create multiple rules with different conditions, but only one rule can be active per SObject type.
+					</p>
+				</div>
+			</div>
+			</aura:if>
+
+			<aura:if isTrue="{!v.objectName=='Assignment_Rule_Entry__c'}">
+			<div class="side-help">
+				<div class="landing__section-content slds-tabs_card">
+					<h2 class="landing__heading_small slds-text-title_caps slds-m-bottom--small">Assignment Rule Entry</h2>
+					<p>
+						Add assignment rule entries that specify the criteria used to route SObject records. You can drag and drop record tile to reorder rule entries.
+					</p>
+				</div>
+			</div>
+			</aura:if>
+
+			<aura:if isTrue="{!v.objectName=='Assignment_Queue__c'}">
+			<div class="side-help">
+				<div class="landing__section-content slds-tabs_card">
+					<h2 class="landing__heading_small slds-text-title_caps slds-m-bottom--small">Assignment Queue</h2>
+					<p>
+						Assignment queue allows groups of users to manage a shared workload more effectively in the manner of round-robin.
+					</p>
+				</div>
+			</div>
+			</aura:if>
+
+			<aura:if isTrue="{!v.objectName=='Assignment_Queue_Member__c'}">
+			<div class="side-help">
+				<div class="landing__section-content slds-tabs_card">
+					<h2 class="landing__heading_small slds-text-title_caps slds-m-bottom--small">Assignment Queue Member</h2>
+					<p>
+						Create assignment queue member.<br/>
+						Member in <span style="color:#c23934;font-weight: bold;font-style: oblique;">red</span> will be skipped during assignment.<br/>
+						Member in <span style="color:#04844b;font-weight: bold;font-style: oblique;">green</span> is ready for next assignment if criteria met.<br/>
+						Member in <span style="color:#f49756;font-weight: bold;font-style: oblique;">orange</span> is currently waiting in queue.<br/>
+					</p>
+				</div>
+			</div>
+			</aura:if>
+
+			<aura:if isTrue="{!v.objectName!='Assignment_Rule_Entry__c'}">
+				<c:ASGMT_Filter objectName="{!v.objectName}"/>
+			</aura:if>
+
+		</div>
+
+	</div>
+</aura:component>

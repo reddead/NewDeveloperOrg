@@ -1,0 +1,18 @@
+<aura:component access="global">
+
+  <aura:registerEvent name="onchange" type="c:ASGMT_FilterValueEvt"/>
+
+  <aura:handler event="c:ASGMT_TabEvt" action="{!c.resetFilterName}"/>
+
+  <div>
+    <lightning:layout verticalAlign="center" class="bar">
+      <lightning:layoutItem flexibility="grow" class="slds-input-has-icon slds-input-has-icon_left-right">
+        <lightning:icon iconName="utility:filterList" class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" size="x-small"/>
+        <input aura:id="searchInput" type="text" class="slds-input slds-combobox__input" placeholder="Filter by name" onkeyup="{!c.keyupHandler}"/>
+        <lightning:buttonIcon iconName="utility:clear" onclick="{!c.clearHandler}" variant="bare" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon" alternativeText="clear"/>
+
+      </lightning:layoutItem>
+    </lightning:layout>
+  </div>
+
+</aura:component>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Allow_Upload__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Allow Upload</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Application__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Application</label>
+        <referenceTo>Application__c</referenceTo>
+        <relationshipLabel>Admissions Documents</relationshipLabel>
+        <relationshipName>Admissions_Documents</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Date_Requested__c</fullName>
+        <externalId>false</externalId>
+        <label>Date Requested</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Display_Instructive_Text__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Display Instructive Text</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Display_to_Applicant__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Display to Applicant</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Displayed_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Displayed Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Document_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Document Name</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>High School Transcript</fullName>
+                    <default>false</default>
+                    <label>High School Transcript</label>
+                </value>
+                <value>
+                    <fullName>College Transcript</fullName>
+                    <default>false</default>
+                    <label>College Transcript</label>
+                </value>
+                <value>
+                    <fullName>Letter of Recommendation</fullName>
+                    <default>false</default>
+                    <label>Letter of Recommendation</label>
+                </value>
+                <value>
+                    <fullName>Paper Application</fullName>
+                    <default>false</default>
+                    <label>Paper Application</label>
+                </value>
+                <value>
+                    <fullName>Essay</fullName>
+                    <default>false</default>
+                    <label>Essay</label>
+                </value>
+                <value>
+                    <fullName>GI Bill</fullName>
+                    <default>false</default>
+                    <label>GI Bill</label>
+                </value>
+                <value>
+                    <fullName>Housing Application</fullName>
+                    <default>false</default>
+                    <label>Housing Application</label>
+                </value>
+                <value>
+                    <fullName>Visa</fullName>
+                    <default>false</default>
+                    <label>Visa</label>
+                </value>
+                <value>
+                    <fullName>Green Card</fullName>
+                    <default>false</default>
+                    <label>Green Card</label>
+                </value>
+                <value>
+                    <fullName>High School Diploma</fullName>
+                    <default>false</default>
+                    <label>High School Diploma</label>
+                </value>
+                <value>
+                    <fullName>College Diploma</fullName>
+                    <default>false</default>
+                    <label>College Diploma</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Document_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Document Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Required</fullName>
+                    <default>false</default>
+                    <label>Required</label>
+                </value>
+                <value>
+                    <fullName>Ready For Approval</fullName>
+                    <default>false</default>
+                    <label>Ready For Approval</label>
+                </value>
+                <value>
+                    <fullName>Resubmit</fullName>
+                    <default>false</default>
+                    <label>Resubmit</label>
+                </value>
+                <value>
+                    <fullName>Approved</fullName>
+                    <default>false</default>
+                    <label>Approved</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Form_URL__c</fullName>
+        <externalId>false</externalId>
+        <label>Form URL</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Instructive_Text__c</fullName>
+        <externalId>false</externalId>
+        <label>Instructive Text</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <label>Admissions Document</label>
+    <nameField>
+        <label>Admissions Document Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Admissions Documents</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

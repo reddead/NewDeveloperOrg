@@ -1,0 +1,45 @@
+<apex:page id="page" standardstylesheets="false" showheader="false" sidebar="false" applyhtmltag="false" applybodytag="false" doctype="html-5.0" controller="NGD_DataController" extensions="NGD_HomepageBuilder_ManageController">
+	<html ng-app="AngularApp" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<head>
+			<title>HomepageBuilder</title>
+
+			<link href="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/css/HomepageBuilder_Manage/HomepageBuilder_Manage.css')}" rel="stylesheet"/>
+
+			<script type="text/javascript">
+				var dataJson = '{!dataJson}';
+				setConfig(dataJson, '{!URLFOR($Resource.NGD_HomepageBuilderAssets, "/html/HomepageBuilder_Manage/HomepageBuilder_Manage.html")}', 'ManageCtrl');
+			</script>
+			<script src="{!URLFOR($Resource.NGD_Utilities, '/util/DynamicGrid/js/modernizr.custom.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_Utilities, '/util/DynamicGrid/js/classie.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_Utilities, '/util/DynamicGrid/js/gridSelector.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/services/HomepageBuilderService.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/controllers/HomepageBuilder_Manage/ManageCtrl.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/controllers/HomepageBuilder_Manage/TemplateModalCtrl.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/controllers/HomepageBuilder_Manage/WidgetModalCtrl.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/controllers/HomepageBuilder/SelectFieldModalCtrl.js')}"></script>
+		</head>
+		<body style="visibility:hidden">
+
+			<c:NGD_HomepageBuilderGridUtility rendered="{!contains($CurrentPage.Name,'HomepageBuilder')}"/>
+
+			<apex:composition template="NGD_HomepageBuilderTemplate">
+
+				<apex:define name="header">
+					<span ng-bind-html="ht[namespacePrefix + 'Header__c']"></span>
+				</apex:define>
+
+				<apex:define name="body">
+					<dz-body></dz-body>
+				</apex:define>
+
+				<apex:define name="footer">
+					<span ng-bind-html="ht[namespacePrefix + 'Footer__c']"></span>
+				</apex:define>
+
+			</apex:composition>
+
+			<script src="{!URLFOR($Resource.NGD_Utilities, '/util/DynamicGrid/js/grid.js')}"></script>
+			
+		</body>
+	</html>
+</apex:page>

@@ -1,0 +1,214 @@
+<apex:component layout="none">
+	<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<style>
+			.gt-grid-control svg {
+				fill: #4f6a92;
+			}
+			.slds-icon--small i.fa {
+				color: #4f6a92;
+			}
+			.gt-grid-select > div {
+				border: 1px solid white;
+			}
+			.gt-grid-select .gt-grid-hover {
+				box-shadow: 10px 10px 10px 10px rgba(255, 255, 255, 0.2) inset;
+			}
+			button:focus {
+				box-shadow: none !important;
+			}
+			.slds .dz-dropdown {
+				min-width: 30px !important;
+			}
+			ul.dz-dropdown__list {
+				text-align: center !important;
+				margin-top: 7px !important;
+				margin-bottom: 7px !important;
+			}
+			li.dz-dropdown__item:hover {
+				cursor: pointer;
+				color: #fff;
+				background-color: #cfd7e6;
+				transition: background-color 0.1s linear 0s;
+				border-radius: 0;
+			}
+			input.custom-input {
+				border-radius: 0 !important;
+				border-left: 0 !important;
+				border-right: 0 !important;
+				padding: 0 2px !important;
+				width: 54px !important;
+				text-align: center;
+			}
+			li.custom-li:hover {
+				background-color: white !important;
+				color: #16325C !important;
+			}
+			.dz-grid-toolbar {
+				background-color: aliceblue !important;
+				margin: 0 3px 0 3px !important;
+			}
+			.dz-grid-toolbar:hover {
+				transform: translate(0, 1px);
+			}
+			.dz-grid-toolbar:active {
+				transform: translate(0, 3px);
+			}
+		</style>
+		<div style="position:relative" class="slds">
+			<div id="gt-grid-selector" class="gt-grid-control">
+				<apex:outputpanel rendered="{!CONTAINS($CurrentPage.Name, 'HomepageBuilder')}" layout="none">
+					<div class="slds-dropdown-trigger">
+						<button class="slds-button slds-button--icon-container dimension dz-grid-toolbar" aria-haspopup="true" title="set dimension">
+							<svg aria-hidden="true" class="slds-icon--small" title="set dimension">
+								<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#apps')}"/>
+							</svg>
+						</button>
+					</div>
+				</apex:outputpanel>
+
+				<div class="slds-dropdown-trigger">
+					<button class="slds-button slds-button--icon-container dz-grid-toolbar" ng-click="openTemplateModal()" title="set template">
+						<svg class="slds-icon--small">
+							<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#layout')}"/>
+						</svg>
+					</button>
+				</div>
+
+				<div class="slds-dropdown-trigger">
+					<button class="slds-button slds-button--icon-container dz-grid-toolbar" aria-haspopup="true" title="set width">
+						<!--<svg aria-hidden="true" class="slds-icon--small"> <use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#settings')}"> </use> </svg>-->
+						<div class="slds-icon--small">
+							<i class="fa fa-cog fa-2x fa-fw"></i>
+						</div>
+					</button>
+					<div class="slds-dropdown slds-nubbin--top slds-dropdown--menu dz-dropdown">
+						<ul class="slds-dropdown__list dz-dropdown__list" role="menu">
+							<li class="slds-dropdown__item dz-dropdown__item">
+								<button class="slds-button slds-button--icon-container" aria-haspopup="true" title="screen" onclick="setMaxWidth(false,'inherit');">
+									<svg aria-hidden="true" class="slds-icon--small">
+										<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#desktop')}"></use>
+									</svg>
+								</button>
+							</li>
+							<li class="slds-dropdown__item dz-dropdown__item">
+								<button class="slds-button slds-button--icon-container" aria-haspopup="true" title="1280px" onclick="setMaxWidth(false,'1280px');">
+									<svg aria-hidden="true" class="slds-icon--small">
+										<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#tablet_portrait')}"></use>
+									</svg>
+								</button>
+							</li>
+							<li class="slds-dropdown__item dz-dropdown__item">
+								<button class="slds-button slds-button--icon-container" aria-haspopup="true" title="960px" onclick="setMaxWidth(false,'960px');">
+									<svg aria-hidden="true" class="slds-icon--small">
+										<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#phone_portrait')}"></use>
+									</svg>
+								</button>
+							</li>
+							<li class="slds-dropdown__item custom-li">
+								<input class="slds-input custom-input" placeholder="Custom" title="custom" oninput="setMaxWidth(true,'');"/>
+								<span style="color: #16325c;">px</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<apex:outputpanel rendered="{!CONTAINS($CurrentPage.Name, 'HomepageBuilder')}" layout="none">
+					<div class="slds-dropdown-trigger">
+						<button class="slds-button slds-button--icon-container dz-grid-toolbar" aria-haspopup="true" ng-click="addWidget()" title="add widget">
+							<svg aria-hidden="true" class="slds-icon--small">
+								<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#new')}"/>
+							</svg>
+						</button>
+					</div>
+					<div class="slds-dropdown-trigger">
+						<button class="slds-button slds-button--icon-container dz-grid-toolbar" aria-haspopup="true" ng-click="removeBorder()" title="add/remove border">
+							<svg aria-hidden="true" class="slds-icon--small">
+								<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#dock_panel')}"/>
+							</svg>
+						</button>
+					</div>
+				</apex:outputpanel>
+				<div class="slds-dropdown-trigger">
+					<button class="slds-button slds-button--icon-container dz-grid-toolbar" aria-haspopup="true" ng-click="restoreGrid()" title="restore">
+						<svg aria-hidden="true" class="slds-icon--small">
+							<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#undo')}"/>
+						</svg>
+					</button>
+				</div>
+				<div class="slds-dropdown-trigger">
+					<button class="slds-button slds-button--icon-container dz-grid-toolbar" aria-haspopup="true" ng-click="saveGrid()" title="save">
+						<svg aria-hidden="true" class="slds-icon--small">
+							<use xlink:href="{!URLFOR($Resource.NGD_SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#package')}"/>
+						</svg>
+					</button>
+				</div>
+				<apex:outputpanel rendered="{!CONTAINS($CurrentPage.Name, 'HomepageBuilder')}">
+					<div class="gt-grid-select">
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+						<div ng-click="generateGrid()"></div>
+					</div>
+				</apex:outputpanel>
+			</div>
+		</div>
+	</html>
+	<script type="text/javascript">
+		$(function () {
+			var maxWidth = $("#dz-container").css("max-width");
+			if (maxWidth != 'none')
+				$("input.custom-input").val($("#dz-container").css("max-width").replace("px", ""));
+			else
+				$("input.custom-input").val('Max');
+			}
+		);
+
+		function setMaxWidth(isCustom, width) {
+			if (isCustom) {
+				var w = $("input.custom-input").val();
+				if (w.toLowerCase() == 'max')
+					$("#dz-container").css({"max-width": "inherit"});
+				else
+					$("#dz-container").css({
+						"max-width": w + 'px'
+					});
+				}
+			else {
+				$("#dz-container").css({"max-width": width});
+				var maxWidth = $("#dz-container").css("max-width");
+				if (maxWidth != 'none') {
+					maxWidth = maxWidth.replace("px", "");
+					$("input.custom-input").val(maxWidth);
+				} else
+					$("input.custom-input").val('Max');
+				}
+			}
+
+		$(".dimension").mouseover(function (e) {
+			$(".gt-grid-select").css({"visibility": "visible", "opacity": "1"});
+		});
+
+		$(".gt-grid-select").mouseover(function (e) {
+			$(".gt-grid-select").css({"visibility": "visible", "opacity": "1"});
+		});
+
+		$(".dimension").mouseleave(function (e) {
+			$(".gt-grid-select").css({"visibility": "hidden", "opacity": "0"});
+		});
+
+		$(".gt-grid-select").mouseleave(function (e) {
+			$(".gt-grid-select").css({"visibility": "hidden", "opacity": "0"});
+		});
+	</script>
+</apex:component>

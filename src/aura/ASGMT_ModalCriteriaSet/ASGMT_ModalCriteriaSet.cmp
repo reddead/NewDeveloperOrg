@@ -1,0 +1,192 @@
+<aura:component extends="c:ASGMT_Service" access="global">
+	<aura:attribute name="cssStyle" type="String"/>
+	<aura:attribute name="type" type="String" default="CRITERIA_SET"/>
+	<aura:attribute name="title" type="String" required="true"/>
+	<aura:attribute name="open" type="Boolean" default="false" required="true" description="Open modal"/>
+
+	<aura:attribute name="config" type="Object"/>
+	<aura:attribute name="objectName" type="String" default="Assignment_Rule_Entry__c"/>
+	<aura:attribute name="record" type="Object" description="Assignment_Rule_Entry__c record"/>
+	<aura:attribute name="relatedObject" type="String" description="Assignment Rule related object"/>
+
+	<aura:attribute name="criteriaSet" type="Object[]" description="Assignment Rule criteria set"/>
+	<aura:attribute name="criteriaLogicError" type="String" access="global"/>
+
+	<aura:attribute name="onclose" type="Aura.Action" default="{!c.defaultCloseAction}"/>
+	<aura:attribute name="oncancel" type="Aura.Action" default="{!c.defaultCloseAction}"/>
+
+	<!-- for save Assignment Rule Entry Record -->
+	<aura:attribute name="simpleRecord" type="Object"/>
+	<force:recordData aura:id="recordSave" layoutType="FULL" recordId="{!v.record.Id}" targetFields="{!v.simpleRecord}" mode="EDIT" recordUpdated="{!c.handleRecordUpdated}"/>
+
+	<aura:registerEvent name="ASGMT_ModalEvt" type="c:ASGMT_ModalEvt"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<aura:dependency resource="markup://c:ASGMT_ModalSelectField"/>
+
+	<style>
+		{!v.cssStyle}
+	</style>
+
+	<div class="slds">
+		<div aura:id="theModal" class="{!'slds-modal slds-modal_large '+(v.open?'slds-fade-in-open ':'')}">
+			<div class="slds-modal__container">
+				<c:Util_Spinner type="medium" show="false" aura:id="Util_Spinner"/>
+				<div class="slds-modal__header">
+					<lightning:buttonIcon iconName="utility:close"
+						alternativeText="Close"
+						class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+						iconClass="slds-button__icon slds-button__icon_large"
+						variant="bare-inverse"
+						onclick="{!v.onclose}"/>
+					<h2 class="slds-text-heading--medium slds-hyphenate">{!v.title}</h2>
+				</div>
+
+				<div class="slds-modal__content slds-p-around--medium criteria-set-padding-bottom">
+					<c:Util_Notify aura:id="Util_Notify" message="Please review the validation errors"/>
+
+					<div class="slds-form slds-is-editing">
+						<div class="{!'slds-input-has-icon slds-input-has-icon_left '+(empty(v.criteriaLogicError)?'':'slds-has-error')}">
+							<lightning:icon iconName="utility:filterList" class="slds-input__icon slds-input__icon_left" size="x-small"/>
+							<!-- !!!NameSpacePrefix issue -->
+							<lightning:input aura:id="criteriaLogic" label="Filter Logic" name="FilterLogic" placeholder="Filter Logic ... e.g. ( 1 AND 2 ) OR 3 , if blank default to All of the conditions are met (AND)" class="hide-label" value="{!v.record.Criteria_Logic__c}"/>
+						</div>
+						<aura:if isTrue="{!!empty(v.criteriaLogicError)}">
+							<div class="slds-has-error">
+								<div class="slds-form-element__help">{!v.criteriaLogicError}</div>
+							</div>
+						</aura:if>
+
+						<table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal">
+							<thead>
+								<tr class="slds-text-heading_label">
+									<th st-sort="order">
+										<span class="slds-truncate">Order</span>
+									</th>
+									<th st-sort="fieldName">
+										<span class="slds-truncate">Field</span>
+									</th>
+									<th st-sort="operator">
+										<span class="slds-truncate">Operator</span>
+									</th>
+									<th st-sort="fieldValue">
+										<span class="slds-truncate">Value</span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<aura:iteration items="{!v.criteriaSet}" var="criteria" indexVar="index">
+									<tr>
+										<td data-label="Order" class="criteria-order">
+											<span>{!criteria.order}</span>
+										</td>
+
+										<td data-label="Field" class="criteria-feild">
+											<div class="slds-input-has-icon slds-input-has-icon_right">
+												<!-- not used for lightning:input does not support click event -->
+												<!-- <lightning:input label="Field" name="Field" class="hide-label" readonly="true" click="{c.selectField}"/> -->
+												<input class="slds-input select-field" type="text" onclick="{!c.selectField}" placeholder="Select a field..." readonly="true" value="{!criteria.fieldDisplayName}" data-cIndex="{!index}" title="{!criteria.fieldName}" style="text-overflow: ellipsis;"/>
+												<aura:if isTrue="{!!empty(criteria.fieldName)}">
+													<lightning:buttonIcon iconName="utility:close" onclick="{!c.clearField}" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon select-field-icon-fix" variant="bare" alternativeText="clear" value="{!index}"/>
+												</aura:if>
+											</div>
+										</td>
+
+										<td data-label="Operator" class="criteria-operator">
+											<lightning:select aura:id="field" name="select" label="Not Displayed" value="{!criteria.operator}" required="true" class="hide-label select-operator" disabled="{!empty(criteria.fieldName)}">
+												<option value="">--None--</option>
+												<option value="Equals">Equals</option>
+												<option value="Does not equal">Does not equal</option>
+												<option value="Starts with">Starts with</option>
+												<option value="Ends with">Ends with</option>
+												<option value="Contains">Contains</option>
+												<option value="Does not contain">Does not contain</option>
+												<option value="Less than">Less than</option>
+												<option value="Less or equal">Less or equal</option>
+												<option value="Greater than">Greater than</option>
+												<option value="Greater or equal">Greater or equal</option>
+											</lightning:select>
+										</td>
+
+										<td data-label="Value" class="{!(criteria.fieldType=='picklist'||criteria.fieldType=='multipicklist'||criteria.fieldType=='id'||criteria.fieldType=='reference')?'criteria-drop-down criteria-value':'criteria-value'}">
+											<aura:if isTrue="{!(criteria.fieldType=='picklist'||criteria.fieldType=='multipicklist')&amp;&amp;criteria.toggle}">
+												<c:Util_MultiSelect aura:id="my-multi-select" options="{!criteria.options}" multiSelectChangeEvt="{!c.handleMultiSelectChangeEvt}" selectedOptions="{!criteria.fieldValue}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!(criteria.fieldType=='picklist'||criteria.fieldType=='multipicklist')&amp;&amp;!criteria.toggle}">
+												<c:Util_MultiSelect aura:id="my-multi-select" options="{!criteria.options}" multiSelectChangeEvt="{!c.handleMultiSelectChangeEvt}" selectedOptions="{!criteria.fieldValue}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!criteria.fieldType=='boolean'&amp;&amp;criteria.toggle}">
+												<lightning:input label="Not Displayed" name="checkbox" type="checkbox" class="hide-label" checked="{!criteria.fieldValue}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!criteria.fieldType=='boolean'&amp;&amp;!criteria.toggle}">
+												<lightning:input label="Not Displayed" name="checkbox" type="checkbox" class="hide-label" checked="{!criteria.fieldValue}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!(criteria.fieldType=='id'||criteria.fieldType=='reference')&amp;&amp;criteria.toggle}">
+												<c:Util_Lookup config="{!v.config}"
+													aura:id="criteriaValueLookup"
+													sObjectAPIName="{!criteria.fieldType=='id'?criteria.lastObjectName:criteria.referenceTo}"
+													class="hide-label"
+													value="{!criteria.fieldValue}"
+													lookupNameValue="{!criteria.lookupNameValue}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!(criteria.fieldType=='id'||criteria.fieldType=='reference')&amp;&amp;!criteria.toggle}">
+												<c:Util_Lookup config="{!v.config}"
+													aura:id="criteriaValueLookup"
+													sObjectAPIName="{!criteria.fieldType=='id'?criteria.lastObjectName:criteria.referenceTo}"
+													class="hide-label"
+													value="{!criteria.fieldValue}"
+													lookupNameValue="{!criteria.lookupNameValue}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!criteria.fieldType=='date'&amp;&amp;criteria.toggle}">
+												<ui:inputDate aura:id="dateField" labelClass="hide-label" label="Not Displayed" value="{!criteria.fieldValue}" displayDatePicker="true" select="{!c.clearCustomFieldError}" change="{!c.clearCustomFieldError}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!criteria.fieldType=='date'&amp;&amp;!criteria.toggle}">
+												<ui:inputDate aura:id="dateField" labelClass="hide-label" label="Not Displayed" value="{!criteria.fieldValue}" displayDatePicker="true" select="{!c.clearCustomFieldError}" change="{!c.clearCustomFieldError}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!criteria.fieldType=='datetime'&amp;&amp;criteria.toggle}">
+												<ui:inputDateTime aura:id="dateField" labelClass="hide-label" label="Not Displayed" value="{!criteria.fieldValue}" displayDatePicker="true" select="{!c.clearCustomFieldError}" change="{!c.clearCustomFieldError}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!criteria.fieldType=='datetime'&amp;&amp;!criteria.toggle}">
+												<ui:inputDateTime aura:id="dateField" labelClass="hide-label" label="Not Displayed" value="{!criteria.fieldValue}" displayDatePicker="true" select="{!c.clearCustomFieldError}" change="{!c.clearCustomFieldError}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!(criteria.fieldType!='datetime' &amp;&amp;criteria.fieldType!='date' &amp;&amp;criteria.fieldType!='picklist' &amp;&amp; criteria.fieldType!='multipicklist' &amp;&amp; criteria.fieldType!='boolean'&amp;&amp; criteria.fieldType!='id'&amp;&amp; criteria.fieldType!='reference')&amp;&amp;criteria.toggle}">
+												<lightning:input label="Not Displayed" name="text" class="hide-label" value="{!criteria.fieldValue}" disabled="{!empty(criteria.fieldName)}"/>
+											</aura:if>
+
+											<aura:if isTrue="{!(criteria.fieldType!='datetime' &amp;&amp;criteria.fieldType!='date' &amp;&amp;criteria.fieldType!='picklist' &amp;&amp; criteria.fieldType!='multipicklist' &amp;&amp; criteria.fieldType!='boolean'&amp;&amp; criteria.fieldType!='id'&amp;&amp; criteria.fieldType!='reference')&amp;&amp;!criteria.toggle}">
+												<lightning:input label="Not Displayed" name="text" class="hide-label" value="{!criteria.fieldValue}" disabled="{!empty(criteria.fieldName)}"/>
+											</aura:if>
+
+										</td>
+									</tr>
+								</aura:iteration>
+
+							</tbody>
+						</table>
+					</div>
+
+					<div aura:id="ModalPlaceholder"/>
+
+				</div>
+
+				<div class="slds-modal__footer">
+					<button class="slds-button slds-button_neutral" onclick="{!v.oncancel}">Cancel</button>
+					<button aura:id="SaveButton" class="slds-button slds-button_brand" onclick="{!c.save}">Save</button>
+				</div>
+			</div>
+		</div>
+		<div aura:id="theBackdrop" class="{!'slds-backdrop '+(v.open?'slds-backdrop_open':'')}"></div>
+	</div>
+</aura:component>

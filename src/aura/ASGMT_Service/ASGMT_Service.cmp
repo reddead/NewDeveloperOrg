@@ -1,0 +1,3 @@
+<aura:component extensible="true" controller="Lightning_ASGMT_DataController" access="global">
+	{!v.body}
+</aura:component>

@@ -1,0 +1,43 @@
+<apex:page standardstylesheets="false" showheader="false" sidebar="false" applyhtmltag="false" applybodytag="false" doctype="html-5.0" controller="NGD_DataController" extensions="NGD_CommunityMyApplicationController">
+    <html ng-app="AngularApp" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <head>
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/controllers/MyApplicationCtrl.js')}"></script>
+        <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/controllers/ApplicationTypeModalCtrl.js')}"></script>
+        <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/controllers/EducationHistoryModalCtrl.js')}"></script>
+        <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/controllers/FamilyModalCtrl.js')}"></script>
+        <script type="text/javascript">
+        var namespacePrefixClass='';
+        var namespacePrefix='';
+        var appId = getParameterByName('id');
+
+        var contactJSON='{!contactJSON}';
+        var applicationJSON='{!applicationJSON}';
+        var applicationsJSON='{!applicationsJSON}';
+        var highSchoolEHJSON='{!highSchoolEHJSON}';
+        var collegesEHJSON='{!collegesEHJSON}';
+        var familiesJSON='{!familiesJSON}';
+
+        var contactDescribeJSON= '{!contactDescribeJSON}';
+        var applicationDescribeJSON= '{!applicationDescribeJSON}';
+        var termDescribeJSON= '{!termDescribeJSON}';
+        var educationHistoryDescribeJSON= '{!educationHistoryDescribeJSON}';
+        var familyDescribeJSON= '{!familyDescribeJSON}';
+
+        var highSchoolRTId='{!highSchoolRTId}';
+        var collegeRTId='{!collegeRTId}';
+        var collegeEHRTId='{!collegeEHRTId}';
+        </script>
+    </head>
+    <body ng-controller="MyApplicationCtrl as con">
+        <!--<body style=" display:none">-->
+        <apex:composition template="NGD_CommunityTemplate">
+            <apex:define name="body">
+                <ng-include src="'{!URLFOR($Resource.NGD_CommunityAssets, '/html/MyApplication.html')}'"></ng-include>
+            </apex:define>
+        </apex:composition>
+    </body>
+</html>
+</apex:page>

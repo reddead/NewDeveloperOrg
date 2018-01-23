@@ -1,0 +1,28 @@
+<apex:component layout="none">
+    <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"></apex:stylesheet>
+    <apex:stylesheet value="{!URLFOR($Resource.NGD_SLDS, '/assets/styles/salesforce-lightning-design-system.css')}"></apex:stylesheet>
+    <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"></apex:stylesheet>
+    <!--customized to adapt SLDS-->
+    <apex:stylesheet value="{!URLFOR($Resource.NGD_Utilities, '/css/sweetalert.css')}"></apex:stylesheet>
+    <apex:stylesheet value="{!URLFOR($Resource.NGD_Utilities, '/css/style.css')}"></apex:stylesheet>
+
+    <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/angular-multi-select/4.0.0/isteven-multi-select.min.css"></apex:stylesheet>
+
+    <!--Homepae Builder-->
+    <!--gridstack-->
+    <apex:stylesheet value="{!if(OR(CONTAINS(LOWER($CurrentPage.Name),'ngd_communityhome'),CONTAINS(LOWER($CurrentPage.Name),'ngd_homepagebuilder_manage')),URLFOR($Resource.NGD_Utilities, '/css/gridstack/gridstack.css'),'')}"></apex:stylesheet><!--Customized by Dante for 24 columns-->
+
+    <apex:stylesheet value="{!if(OR(CONTAINS(LOWER($CurrentPage.Name),'ngd_communityhome'),CONTAINS(LOWER($CurrentPage.Name),'ngd_homepagebuilder_manage')),URLFOR($Resource.NGD_Utilities, '/css/gridstack/style.css'),'')}"></apex:stylesheet>
+
+    <!--grid selector-->
+    <apex:stylesheet value="{!if(CONTAINS(LOWER($CurrentPage.Name),'ngd_homepagebuilder_manage'),URLFOR($Resource.NGD_Utilities, '/util/DynamicGrid/css/component.css'),'')}"></apex:stylesheet>
+    <!--grid selector-->
+
+    <apex:stylesheet value="{!if(CONTAINS(LOWER($CurrentPage.Name),'ngd_homepagebuilder'),URLFOR($Resource.NGD_HomepageBuilderAssets, '/css/HomepageBuilder.css'),'')}"></apex:stylesheet>
+    <!--Homepae Builder-->
+
+    <!--CommunityHome-->
+    <apex:stylesheet value="{!if(CONTAINS(LOWER($CurrentPage.Name),'ngd_communityhome'),URLFOR($Resource.NGD_CommunityAssets, '/css/common.css'),'')}"></apex:stylesheet>
+    <!--CommunityHome-->
+
+</apex:component>

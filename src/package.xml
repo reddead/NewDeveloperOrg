@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>*</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexComponent</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>Assignment_Manager</members>
+        <members>Homepage_Builder</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>Admissions_Document__c</members>
+        <members>Application__c</members>
+        <members>Assignment_Queue_Member__c</members>
+        <members>Assignment_Queue__c</members>
+        <members>Assignment_Rule_Entry__c</members>
+        <members>Assignment_Rule__c</members>
+        <members>Concentration__c</members>
+        <members>Education_History__c</members>
+        <members>Environment__c</members>
+        <members>Family__c</members>
+        <members>Feature_Manager__c</members>
+        <members>Homepage_Template__c</members>
+        <members>Homepage_Widget_Layout__c</members>
+        <members>Homepage_Widget__c</members>
+        <members>Program_Catalog__c</members>
+        <members>Program_Offered__c</members>
+        <members>School__c</members>
+        <members>Term__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Assignment_Manager_UtilityBar</members>
+        <members>Homepage_Builder_UtilityBar</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Assignment_Queue_Member__c-Assignment Queue Member Layout</members>
+        <members>Assignment_Queue__c-Assignment Queue Layout</members>
+        <members>Assignment_Rule_Entry__c-Assignment Rule Entry Layout</members>
+        <members>Assignment_Rule__c-Assignment Rule Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Dante_Dev</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
+    </types>
+    <version>40.0</version>
+</Package>

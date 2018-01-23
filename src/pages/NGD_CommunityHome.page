@@ -1,0 +1,33 @@
+<apex:page standardstylesheets="false" showheader="false" sidebar="false" applyhtmltag="false" applybodytag="false" doctype="html-5.0" controller="NGD_DataController" extensions="NGD_CommunityHomeController">
+	<html ng-app="AngularApp" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<head>
+			<title>CommunityHome</title>
+
+			<link href="{!URLFOR($Resource.NGD_CommunityAssets, '/css/Homepage.css')}" rel="stylesheet"/>
+			<script type="text/javascript">
+				var dataJson = '{!dataJson}';
+				setConfig(dataJson, '{!URLFOR($Resource.NGD_CommunityAssets, "/html/Homepage/Homepage.html")}', 'HomepageCtrl');
+			</script>
+			<script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/services/Homepage/HomepageService.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/controllers/Homepage/HomepageCtrl.js')}"></script>
+			<script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/pages/Homepage/Homepage.js')}"></script>
+		</head>
+		<body>
+			<apex:composition template="NGD_HomepageBuilderTemplate">
+
+				<apex:define name="header">
+					<span ng-bind-html="ht[namespacePrefix + 'Header__c']"></span>
+				</apex:define>
+
+				<apex:define name="body">
+					<dz-body></dz-body>
+				</apex:define>
+
+				<apex:define name="footer">
+					<span ng-bind-html="ht[namespacePrefix + 'Footer__c']"></span>
+				</apex:define>
+
+			</apex:composition>
+		</body>
+	</html>
+</apex:page>

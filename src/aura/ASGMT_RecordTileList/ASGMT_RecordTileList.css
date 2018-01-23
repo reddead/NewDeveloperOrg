@@ -1,0 +1,9 @@
+.THIS.record-tile-list{
+  position: relative;
+}
+
+/*@media (min-width: 48em) {
+  .THIS.child-record-tile-list {
+    padding-left: 75px;
+  }
+}*/

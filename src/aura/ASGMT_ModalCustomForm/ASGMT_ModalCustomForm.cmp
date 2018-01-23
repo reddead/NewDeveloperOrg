@@ -1,0 +1,251 @@
+<aura:component extends="c:ASGMT_Service" access="global">
+	<aura:attribute name="cssStyle" type="String"/>
+	<aura:attribute name="type" type="String" default="CRITERIA_SET"/>
+	<aura:attribute name="title" type="String" required="true"/>
+	<aura:attribute name="open" type="Boolean" default="false" required="true" description="Open modal"/>
+
+	<aura:attribute name="config" type="Object"/>
+	<aura:attribute name="objectName" type="String"/>
+	<aura:attribute name="parentRecord" type="Object" description="for lookup id if parent exists"/>
+	<aura:attribute name="record" type="Object"/>
+
+	<!-- special attribute -->
+	<aura:attribute name="oldOrder" type="String" description="old order for Rule Entry"/>
+	<!-- special attribute -->
+
+	<aura:attribute name="onclose" type="Aura.Action" default="{!c.defaultCloseAction}"/>
+	<aura:attribute name="oncancel" type="Aura.Action" default="{!c.defaultCloseAction}"/>
+
+	<aura:attribute name="simpleRecord" type="Object"/>
+
+	<aura:if isTrue="{!v.record==null}">
+		<force:recordData aura:id="recordCreator" layoutType="FULL" targetFields="{!v.simpleRecord}"/>
+	</aura:if>
+
+	<aura:if isTrue="{!v.record!=null}">
+		<force:recordData aura:id="recordEditor" layoutType="FULL" recordId="{!v.record.Id}" targetFields="{!v.simpleRecord}" mode="EDIT" recordUpdated="{!c.handleRecordUpdated}"/>
+	</aura:if>
+
+	<aura:registerEvent name="ASGMT_ModalEvt" type="c:ASGMT_ModalEvt"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<aura:dependency resource="markup://c:Util_Lookup"/>
+
+	<style>
+		{!v.cssStyle}
+	</style>
+
+	<div class="slds">
+		<div aura:id="theModal" class="{!'slds-modal slds-modal_medium '+(v.open?'slds-fade-in-open ':'')}">
+			<div class="slds-modal__container">
+				<c:Util_Spinner type="medium" show="false" aura:id="Util_Spinner"/>
+				<div class="slds-modal__header">
+					<lightning:buttonIcon iconName="utility:close"
+						alternativeText="Close"
+						class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+						iconClass="slds-button__icon slds-button__icon_large"
+						variant="bare-inverse"
+						onclick="{!v.onclose}"/>
+					<h2 class="slds-text-heading--medium slds-hyphenate">{!v.title}</h2>
+				</div>
+
+				<div class="slds-modal__content slds-p-around--medium" style="overflow:visible">
+					<c:Util_Notify aura:id="Util_Notify" message="Please review the validation errors"/>
+
+					<aura:if isTrue="{!v.objectName=='Assignment_Rule__c' &amp;&amp; v.open}">
+						<div class="slds-form slds-is-editing">
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<lightning:input aura:id="field" label="Assignment Rule Name" name="field" value="{!v.simpleRecord.Name}" maxlength="80" required="true"/>
+								</div>
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<lightning:input aura:id="field" label="Related Object" name="relatedObjectField" value="{!v.simpleRecord.Related_Object__c}" onchange="{!c.clearCustomFieldError}" required="true"/>
+								</div>
+							</div>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<ui:inputCheckbox label="Active" value="{!v.simpleRecord.Active__c}"/>
+								</div>
+							</div>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<div class="slds-grid">
+										<!-- !!!NameSpacePrefix issue -->
+										<ui:inputCheckbox label="Fire On Update" value="{!v.simpleRecord.Fire_On_Update__c}"/>
+										<!-- ////////////////// -->
+										<div class="custom-dropdown-trigger slds-dropdown-trigger slds-dropdown-trigger_hover">
+											<button class="slds-button slds-button_icon slds-button slds-button_icon" style="    padding-bottom: 4px;">
+												<c:Util_SVG class="slds-button__icon" xlinkHref="{!$Resource.NGD_SLDS+'/assets/icons/utility-sprite/svg/symbols.svg#info'}"/>
+												<span class="slds-assistive-text">Help</span>
+											</button>
+											<div class="custom-dropdown slds-popover slds-popover_tooltip slds-nubbin_bottom">
+												<div class="slds-popover__body">Mark this as true to reassign owner for existing records.</div>
+											</div>
+										</div>
+										<!-- ////////////// -->
+									</div>
+
+								</div>
+							</div>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<lightning:textarea label="Description" value="{!v.simpleRecord.Description__c}" name="textArea"/>
+								</div>
+							</div>
+
+						</div>
+					</aura:if>
+
+					<aura:if isTrue="{!v.objectName=='Assignment_Rule_Entry__c' &amp;&amp; v.open}">
+						<div class="slds-form slds-is-editing" style="padding-bottom: 130px;">
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<lightning:input aura:id="field" label="Assignment Rule Entry Name" name="field" value="{!v.simpleRecord.Name}" maxlength="80" required="true"/>
+								</div>
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<!-- <lightning:input aura:id="field" label="Order" name="field" value="{!v.simpleRecord.Order__c}" onchange="{!c.clearCustomFieldError}" required="true"/> -->
+									<lightning:input aura:id="field" type="number" label="Order" name="field" value="{!v.simpleRecord.Order__c}" onchange="{!c.clearCustomFieldError}" placeholder="default to the highest order" min="1" messageWhenRangeUnderflow="Must be greater than 0"/>
+								</div>
+							</div>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<div aura:id="assignTo" class="slds-grid" style="align-items: flex-end;">
+										<!-- !!!NameSpacePrefix issue -->
+										<lightning:select aura:id="field" name="select" label="Assign To" value="{!v.simpleRecord.Assign_To_Object__c}" class="assign-to-left" onchange="{!c.clearAssignTo}" required="true">
+											<option value="User">User</option>
+											<option value="Assignment_Queue__c">Assignment Queue</option>
+										</lightning:select>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<lightning:textarea label="Description" value="{!v.simpleRecord.Description__c}" name="textArea"/>
+								</div>
+							</div>
+
+						</div>
+					</aura:if>
+
+					<aura:if isTrue="{!v.objectName=='Assignment_Queue__c' &amp;&amp; v.open}">
+
+						<div class="slds-form slds-is-editing">
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<lightning:input aura:id="field" label="Assignment Queue Name" name="field" value="{!v.simpleRecord.Name}" maxlength="80" required="true"/>
+								</div>
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium "></div>
+							</div>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<ui:inputCheckbox label="Active" value="{!v.simpleRecord.Active__c}"/>
+								</div>
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium "></div>
+							</div>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<lightning:textarea label="Description" value="{!v.simpleRecord.Description__c}" name="textArea"/>
+								</div>
+							</div>
+
+						</div>
+
+					</aura:if>
+
+					<aura:if isTrue="{!v.objectName=='Assignment_Queue_Member__c'&amp;&amp; v.open}">
+						<div class="slds-form slds-is-editing" style="padding-bottom: 50px;">
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<c:Util_Lookup aura:id="lookupField"
+										config="{!v.config}"
+										sObjectAPIName="User"
+										label="User"
+										value="{!v.simpleRecord.User__c}"
+										lookupNameValue="{!v.simpleRecord.User_Name__c}"
+										required="true"
+										whereClause="(UserType='Standard' OR UserType='PowerPartner') AND IsActive=true"/>
+								</div>
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium "></div>
+							</div>
+
+							<aura:if isTrue="{!!empty(v.simpleRecord.Id)}">
+								<div class="slds-grid">
+									<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+										<!-- !!!NameSpacePrefix issue -->
+										<div class="uiLabel-left form-element__label uiLabel">
+											<span>Member Status</span>
+										</div>
+										<ui:outputText value="{!v.simpleRecord.Member_Status__c}"/>
+									</div>
+									<div class="slds-has-flexi-truncate slds-p-horizontal_medium "></div>
+								</div>
+							</aura:if>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<ui:inputCheckbox label="Member Active" value="{!v.simpleRecord.Member_Active__c}"/>
+								</div>
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium "></div>
+							</div>
+
+							<aura:if isTrue="{!!empty(v.simpleRecord.Id)}">
+								<div class="slds-grid">
+									<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+										<div class="uiLabel-left form-element__label uiLabel">
+											<span>User Active</span>
+										</div>
+										<!-- !!!NameSpacePrefix issue -->
+										<ui:outputCheckbox value="{!v.simpleRecord.User_Active__c}"/>
+									</div>
+									<div class="slds-has-flexi-truncate slds-p-horizontal_medium "></div>
+								</div>
+							</aura:if>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<ui:inputDateTime aura:id="dateField" label="Last Assignment" value="{!v.simpleRecord.Last_Assignment__c}" displayDatePicker="true" select="{!c.clearCustomFieldError}" change="{!c.clearCustomFieldError}"/>
+								</div>
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium "></div>
+							</div>
+
+							<div class="slds-grid">
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
+									<!-- !!!NameSpacePrefix issue -->
+									<lightning:input label="Millisecond" name="millisecond" value="{!v.simpleRecord.Millisecond__c}"/>
+
+								</div>
+								<div class="slds-has-flexi-truncate slds-p-horizontal_medium "></div>
+							</div>
+
+						</div>
+					</aura:if>
+				</div>
+				<div class="slds-modal__footer">
+					<button class="slds-button slds-button_neutral" onclick="{!v.oncancel}">Cancel</button>
+					<button aura:id="SaveButton" class="slds-button slds-button_brand" onclick="{!c.save}">Save</button>
+				</div>
+			</div>
+		</div>
+		<div aura:id="theBackdrop" class="{!'slds-backdrop '+(v.open?'slds-backdrop_open':'')}"></div>
+	</div>
+</aura:component>

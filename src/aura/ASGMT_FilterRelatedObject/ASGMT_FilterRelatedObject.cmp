@@ -1,0 +1,15 @@
+<aura:component controller="Lightning_ASGMT_DataController" access="global">
+	<aura:attribute name="objectNames" type="Object[]" />
+	<aura:attribute name="selectedValue" type="String" />
+
+	<aura:registerEvent name="onchange" type="c:ASGMT_FilterValueEvt" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<lightning:select label="Related Object" value="{!v.selectedValue}" onchange="{!c.changeHandler}"  name="relatedObject">
+		<aura:iteration items="{!v.objectNames}" var="objectName">
+			<option text="{#objectName.label}" value="{#objectName.value}" />
+		</aura:iteration>
+	</lightning:select>
+
+</aura:component>

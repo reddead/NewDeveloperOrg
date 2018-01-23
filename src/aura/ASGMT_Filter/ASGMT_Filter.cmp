@@ -1,0 +1,27 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+
+  <aura:attribute name="objectName" type="String" default="Assignment_Rule__c"/>
+
+  <aura:registerEvent name="filterChange" type="c:ASGMT_FilterEvt"/>
+
+  <aura:handler event="c:ASGMT_TabEvt" action="{!c.setObjectName}"/>
+
+  <div class="filter-container">
+    <lightning:layout >
+      <lightning:layoutItem >
+        <lightning:icon iconName="utility:filter" size="small" class="popup-icon"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem >
+        <h3 class="slds-section__title">Filters</h3>
+      </lightning:layoutItem>
+    </lightning:layout>
+
+    <aura:if isTrue="{!v.objectName!='Assignment_Rule_Entry__c'}">
+      <c:ASGMT_FilterName onchange="{!c.searchKeyChangeHandler}"/>
+    </aura:if>
+
+    <aura:if isTrue="{!v.objectName=='Assignment_Rule__c'}">
+        <c:ASGMT_FilterRelatedObject onchange="{!c.relatedObjectChangeHandler}"/>
+    </aura:if>
+  </div>
+</aura:component>

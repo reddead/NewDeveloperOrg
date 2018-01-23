@@ -1,0 +1,111 @@
+<aura:component controller="Lightning_Util_LookupCtrl" extends="c:ASGMT_Service">
+	<!-- Required Scripts/Styles -->
+	<!-- Salesforce Lightning Design System : https://www.lightningdesignsystem.com/ -->
+	<!-- <ltng:require styles="/resource/slds202/assets/styles/salesforce-lightning-design-system-ltng.css"/> -->
+
+	<!-- Attributes -->
+	<aura:attribute name="config" type="Object"/>
+	<!-- required="true" -->
+	<aura:attribute name="sObjectAPIName" type="String" description="The API name of the SObject to search"/>
+	<!-- required="true" -->
+	<aura:attribute name="instanceId" type="String" description="An id to identify the instance the component"/>
+	<aura:attribute name="index" type="String" description="Index to be mentioned if used in iterations"/>
+	<!-- required="true" -->
+	<aura:attribute name="label" type="String" description="The label to assign to the lookup, eg: Account"/>
+	<aura:attribute name="value" type="String"/>
+	<aura:attribute name="required" type="Boolean"/>
+	<aura:attribute name="lookupNameValue" type="String"/>
+	<aura:attribute name="error" type="String"/>
+
+	<aura:attribute name="pluralLabel" type="String" required="true" description="The plural label to assign to the lookup, eg: Accounts"/>
+
+	<aura:attribute name="listIconSVGPath" type="String" description="The static resource path to the svg icon to use."/>
+	<aura:attribute name="listIconColor" type="String"/>
+
+	<!-- slds-icon-custom-10 -->
+	<aura:attribute name="listIconClass" type="String" default="pillIcon" description="The SLDS class to use for the icon."/>
+	<aura:attribute name="class" type="String"/>
+	<aura:attribute name="searchString" type="String" description="The search string to find."/>
+	<aura:attribute name="whereClause" type="String" description="The where clause string to filter on records."/>
+	<!-- Lightning_Util_LookupCtrl.Result -->
+	<aura:attribute name="data" type="Object[]"/>
+	<aura:attribute name="matches" type="Object[]" description="The resulting matches returned by the Apex controller."/>
+	<aura:attribute name="disabled" type="Boolean" default="false" description="The attribute to control readonly behaviour of lookup"/>
+	<aura:attribute name="rawSOQL" type="String" description="Pass raw soql to be executed"/>
+	<aura:attribute name="context" type="String" description="Context with which this code is working"/>
+
+	<aura:attribute name="isDropdownOpen" type="Boolean" default="false" access="global"/>
+
+	<!-- Handlers-->
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<!-- Events -->
+	<aura:registerEvent name="Util_LookupEvt" type="c:Util_LookupEvt"/>
+
+	<!-- Lookup Markup : See https://www.lightningdesignsystem.com/components/lookups -->
+	<div class="{!'select-field-type-ahead '+v.class}">
+		<div aura:id="lookup-div" class="slds-lookup" data-select="single" data-scope="single" data-typeahead="true">
+			<!-- This is the Input form markup -->
+			<div class="{!'slds-form-element '+(empty(v.error)?'':'slds-has-error')}">
+				<label class="slds-form-element__label" for="lookup">
+					<aura:if isTrue="{!v.required}">
+					<abbr class="slds-required">*</abbr>
+				</aura:if>
+					{!v.label}
+				</label>
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+					<c:Util_SVG class="slds-icon-text-default slds-input__icon pointer-events-none" xlinkHref="{!$Resource.NGD_SLDS+'/assets/icons/utility-sprite/svg/symbols.svg#search'}"/>
+					<!-- This markup is for when an item is currently selected -->
+					<div aura:id="lookup-pill" class="slds-pill-container slds-hide">
+						<span class="slds-pill" title="{!empty(v.sObjectAPIName)?v.searchString:v.lookupNameValue}">
+							<span class="slds-pill__label">
+								<c:Util_SVG class="{!'slds-icon ' + v.listIconClass + ' slds-icon--small pointer-events-none'}" style="{!empty(v.sObjectAPIName)?'fill:#54698d':'background-color: #'+v.listIconColor}" xlinkHref="{!empty(v.sObjectAPIName)?$Resource.NGD_SLDS+'/assets/icons/utility-sprite/svg/symbols.svg#breadcrumbs':v.listIconSVGPath}"/><aura:text value="{!v.searchString}"/>
+							</span>
+							<button class="slds-button slds-button--icon-bare" onclick="{!c.clear}" type="button" title="clear">
+								<c:Util_SVG class="slds-button__icon" xlinkHref="{!$Resource.NGD_SLDS+'/assets/icons/utility-sprite/svg/symbols.svg#close'}"/>
+								<span class="slds-assistive-text">Remove</span>
+							</button>
+						</span>
+					</div>
+					<!-- This markup is for when searching for a string -->
+					<!-- <ui:inputText aura:id="lookup" value="{!v.searchString}" class="slds-input" updateOn="keyup" keyup="{!c.search}" disabled="{!v.disabled}" focus="{!c.showDefaultOptionList}"/> -->
+
+					<input aura:id="lookup" value="{!v.searchString}" class="slds-input Util_Lookup" onkeyup="{!c.search}" disabled="{!v.disabled}" onclick="{!c.showDefaultOptionList}" placeholder="{!'Search '+v.pluralLabel}"/>
+
+					<!-- <input aura:id="lookup" value="{!v.searchString}" class="slds-input" onkeyup="{!c.search}" disabled="{!v.disabled}" onfocus="{!c.showDefaultOptionList}"/> -->
+				</div>
+				<aura:if isTrue="{!!empty(v.error)}">
+					<div class="slds-form-element__help">{!v.error}</div>
+				</aura:if>
+			</div>
+			<!-- This is the lookup list markup. Initially it's hidden -->
+			<div aura:id="lookuplist" class="slds-lookup__menu slds-hide" role="listbox">
+				<div class="{!'slds-lookup__item '+ (empty(v.searchString)?'slds-hide':'')}">
+					<button class="slds-button" type="button">
+						<c:Util_SVG class="slds-icon slds-icon-text-default slds-icon--xx-small" xlinkHref="{!$Resource.NGD_SLDS+'/assets/icons/utility-sprite/svg/symbols.svg#search'}"/>
+						&quot;{!v.searchString}&quot; in {!v.pluralLabel}
+					</button>
+				</div>
+				<ul aura:id="lookuplist-items" class="slds-lookup__list" role="presentation">
+					<aura:iteration items="{!v.matches}" var="match">
+						<li class="slds-lookup__item">
+							<aura:if isTrue="{!!empty(v.sObjectAPIName)}">
+								<a id="{!globalId + '_id_' + match.SObjectId}" role="option" onclick="{!c.select}">
+									<c:Util_SVG class="{!'slds-icon ' + v.listIconClass + ' slds-icon--small pointer-events-none'}" style="{!empty(v.sObjectAPIName)?'':'background-color: #'+v.listIconColor}" xlinkHref="{!v.listIconSVGPath}"/>
+									<aura:unescapedHtml value="{!match.hSObjectLabel}"/>
+								</a>
+								<aura:set attribute="else">
+									<a aura:id="LookupItem" role="option" onclick="{!c.select}" class="type-ahead-option" data-isReferenceTo="{!match.isReferenceTo}" data-referenceTo="{!match.referenceTo}" data-cFieldType="{!match.fieldType}" data-cLastObjectName="{!match.objectName}" data-cLastFieldName="{!match.isReferenceTo==true?match.relationshipName:match.fieldName}">
+										<c:Util_SVG class="{!'slds-icon ' + v.listIconClass + ' slds-icon--small pointer-events-none'}" xlinkHref="{!match.isReferenceTo==true?$Resource.NGD_SLDS+'/assets/icons/doctype-sprite/svg/symbols.svg#folder':''}"/>
+										<aura:unescapedHtml value="{!empty(match.hLabel)?match.label:match.hLabel}"/>
+									</a>
+								</aura:set>
+							</aura:if>
+
+						</li>
+					</aura:iteration>
+				</ul>
+			</div>
+		</div>
+	</div>
+</aura:component>

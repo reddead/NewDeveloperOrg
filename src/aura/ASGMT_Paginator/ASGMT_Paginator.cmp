@@ -1,0 +1,25 @@
+<aura:component >
+
+    <aura:attribute name="pageNumber" type="integer"/>
+    <aura:attribute name="pageCount" type="integer"/>
+    <aura:attribute name="recordCount" type="integer"/>
+    <aura:attribute name="label" type="String" default="items"/>
+
+    <aura:registerEvent name="nextPage" type="c:ASGMT_PaginatorEvt"/>
+    <aura:registerEvent name="previousPage" type="c:ASGMT_PaginatorEvt"/>
+
+    <div class="container">
+        <div class="left">
+            <aura:if isTrue="{!v.pageNumber > 1}">
+                <lightning:buttonIcon iconName="utility:left" variant="border-filled" onclick="{!c.previousPage}" alternativeText="Previous Page"/>
+            </aura:if>
+        </div>
+        <div class="centered">{!v.recordCount}&nbsp;{!v.label} • page {!v.pageNumber} of {!v.pageCount}</div>
+        <div class="right">
+            <aura:if isTrue="{!v.pageNumber &lt; v.pageCount}">
+                <lightning:buttonIcon iconName="utility:right" variant="border-filled" onclick="{!c.nextPage}" alternativeText="Next Page"/>
+            </aura:if>
+        </div>
+	</div>
+
+</aura:component>

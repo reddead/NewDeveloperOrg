@@ -1,0 +1,21 @@
+global with sharing class System_TriggerControlVariables {
+	global static Boolean lead_ShouldExecute = true;
+	global static Boolean contact_ShouldExecute = true;
+	global static Boolean application_ShouldExecute = true;
+	global static Boolean admissionDocument_ShouldExecute = true;
+	global static Boolean educationHistory_ShouldExecute = true;
+	global static Boolean testScore_ShouldExecute = true;
+	global static Boolean recommendation_ShouldExecute = true;
+	global static Boolean campaignMember_ShouldExecute = true;
+	global static Boolean touchPoint_ShouldExecute = true;
+	global static Boolean term_ShouldExecute = true;
+	global static Boolean programCatalog_ShouldExecute = true;
+	global static Boolean programOffered_ShouldExecute = true;
+	global static Boolean campus_ShouldExecute = true;
+	global static Boolean school_ShouldExecute = true;
+	global static Boolean highSchool_ShouldExecute = true;
+	global static Boolean attachment_ShouldExecute = true;
+	global static Boolean statusTracking_ShouldExecute = true;
+	global static Boolean campaign_ShouldExecute = true;
+	global static Boolean account_ShouldExecute = true;
+}

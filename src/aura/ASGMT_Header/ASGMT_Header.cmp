@@ -1,0 +1,76 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="Lightning_ASGMT_DataController" access="global">
+	<aura:attribute name="config" type="Object"/>
+	<aura:attribute name="objectName" type="String" default="Assignment_Rule__c"/>
+	<aura:attribute name="cssStyle" type="String" default="" access="public"/>
+
+	<aura:registerEvent name="headerActionEvt" type="c:ASGMT_HeaderEvt"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:handler event="c:ASGMT_TabEvt" action="{!c.handleTabChangeEvt}"/>
+	<aura:handler name="notifyEvt" event="c:Util_NotifyEvt" action="{!c.handleNotifyEvt}"/>
+
+	<aura:dependency resource="markup://c:Util_Notify"/>
+
+	<div class="slds-page-header">
+		<div class="slds-grid">
+			<div class="slds-col slds-has-flexi-truncate">
+				<div class="slds-media">
+					<div class="slds-media__figure">
+						<lightning:avatar src="/img/icon/t4v35/custom/custom9_120.png" alternativeText="Assignment Manager" fallbackIconName="standard:account"/>
+					</div>
+					<div class="slds-media__body">
+						<h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Assignment Manager">
+							Assignment Manager
+						</h1>
+					</div>
+				</div>
+			</div>
+			<div class="slds-col slds-no-flex slds-grid slds-align-top slds-p-bottom_xx-small">
+				<div class="slds-button-group" role="group">
+					<lightning:button label="New" onclick="{!c.newRecord}"/>
+					<!-- disabled="{!v.objectName=='Assignment_Rule__c'||v.objectName=='Assignment_Queue__c'}" -->
+					<lightning:button label="Back" onclick="{!c.back}"/>
+					<!-- <lightning:buttonIcon iconName="utility:refresh" onclick="{!c.refresh}" class="slds-button slds-button__neutral" alternativeText="refresh"/> -->
+					<!-- <div class="slds-button_last">
+						<button class="slds-button slds-button_icon slds-button_icon-border-filled" title="More Actions">
+							<span class="slds-assistive-text">More Actions</span>
+						</button>
+					</div> -->
+					<button class="slds-button slds-button_neutral" onclick="{!c.refresh}">
+						<c:Util_SVG class="slds-button__icon" xlinkHref="{!$Resource.NGD_SLDS+'/assets/icons/utility-sprite/svg/symbols.svg#refresh'}"/>
+						<span class="slds-assistive-text">Refresh</span>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="slds-grid">
+			<div class="slds-col slds-align-bottom">
+				<p class="slds-text-body_small"></p>
+			</div>
+			<div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+
+				<!-- <button class="slds-button slds-button_icon slds-m-left_xx-small slds-button_icon-border" title="Refresh">
+					<svg class="slds-button__icon" aria-hidden="true">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+					</svg>
+					<span class="slds-assistive-text">Refresh</span>
+				</button> -->
+
+				<!-- <button class="slds-button slds-button_icon slds-m-left_xx-small slds-button_icon-border" title="Refresh">
+					<svg class="slds-button__icon" aria-hidden="true">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+					</svg>
+					<span class="slds-assistive-text">Refresh</span>
+				</button> -->
+				<!-- <div class="slds-button-group">
+					<button class="slds-button slds-button_icon slds-m-left_xx-small slds-button_icon-border"><img src="/img/icon/t4v35/utility/back_60.png" height="14" width="14"/></button>
+					<button class="slds-button slds-button_icon slds-m-left_xx-small slds-button_icon-border"><img src="/img/icon/t4v35/utility/refresh_60.png" height="14" width="14"/></button>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+	<!-- <div aura:id="ModalPlaceholder"/> -->
+	<div aura:id="notifyPlaceholder"/>
+
+</aura:component>

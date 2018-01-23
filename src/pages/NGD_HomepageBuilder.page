@@ -1,0 +1,25 @@
+<apex:page showheader="false" standardstylesheets="false" sidebar="false" applyhtmltag="false" applybodytag="false" doctype="html-5.0" controller="NGD_DataController" extensions="NGD_HomepageBuilderController">
+<html ng-app="AngularApp" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <head>
+        <title>HomepageBuilder</title>
+
+        <link href="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/css/HomepageBuilder/HomepageBuilder.css')}" rel="stylesheet"/>
+
+        <script type="text/javascript">
+            var dataJson = '{!dataJson}';
+            setConfig(dataJson,'{!URLFOR($Resource.NGD_HomepageBuilderAssets, "/html/HomepageBuilder/HomepageBuilder.html")}','HomepageBuilderCtrl');
+        </script>
+        <script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/services/HomepageBuilderService.js')}"></script>
+        <script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/controllers/HomepageBuilder/HomepageBuilderCtrl.js')}"></script>
+        <script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/controllers/HomepageBuilder/LayoutModalCtrl.js')}"></script>
+        <script src="{!URLFOR($Resource.NGD_HomepageBuilderAssets, '/js/controllers/HomepageBuilder/SelectFieldModalCtrl.js')}"></script>
+    </head>
+    <body>
+        <apex:composition template="NGD_HomepageBuilderTemplate">
+            <apex:define name="body">
+                <dz-body></dz-body>
+            </apex:define>
+        </apex:composition>
+    </body>
+</html>
+</apex:page>

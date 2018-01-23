@@ -1,0 +1,29 @@
+.THIS .slds-pill-container {
+	padding: 5px
+}
+
+.THIS .slds-pill {
+	padding: 4px
+}
+
+.THIS .slds-lookup__menu {
+	width: auto;
+	width: initial;
+	white-space: nowrap;
+}
+
+.THIS .uiInput--input.input {
+	min-height: calc(1.875rem + (1px * 2));
+}
+
+.THIS .pillIcon {
+	margin-right: 8px;
+}
+
+.THIS .slds-input-has-icon .slds-icon-text-default {
+	fill: rgb(84, 105, 141);
+}
+
+.THIS .pointer-events-none{
+	pointer-events: none;
+}

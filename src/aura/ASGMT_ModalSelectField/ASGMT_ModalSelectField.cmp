@@ -1,0 +1,58 @@
+<aura:component extends="c:ASGMT_Service" access="global">
+	<aura:attribute name="cssStyle" type="String"/>
+	<aura:attribute name="type" type="String" default="CRITERIA_SET"/>
+	<aura:attribute name="title" type="String" required="true"/>
+	<aura:attribute name="open" type="Boolean" default="false" required="true" description="Open modal"/>
+
+	<aura:attribute name="config" type="Object"/>
+	<aura:attribute name="relatedObject" type="String" description="Assignment Rule related object"/>
+	<aura:attribute name="criteriaSet" type="Object[]"/>
+
+	<aura:attribute name="cIndex" type="Integer" description="Assignment Rule criteria index"/>
+	<aura:attribute name="cFieldType" type="String" description="Assignment Rule criteria fieldType"/>
+	<aura:attribute name="cLastObjectName" type="String" description="Assignment Rule criteria lastObjectName"/>
+	<aura:attribute name="cLastFieldName" type="String" description="Assignment Rule criteria lastFieldName"/>
+	<aura:attribute name="cReferenceTo" type="String" description="Assignment Rule criteria referenceTo"/>
+
+	<aura:attribute name="onclose" type="Aura.Action" default="{!c.defaultCloseAction}"/>
+	<aura:attribute name="oncancel" type="Aura.Action" default="{!c.defaultCloseAction}"/>
+
+	<aura:registerEvent name="ASGMT_ModalEvt" type="c:ASGMT_ModalEvt"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:handler name="Util_LookupEvt" event="c:Util_LookupEvt" action="{!c.handleUtil_LookupEvt}"/>
+
+	<aura:dependency resource="markup://c:Util_Lookup"/>
+
+	<style>
+		{!v.cssStyle}
+	</style>
+
+	<div class="slds">
+		<div aura:id="theModal" class="{!'slds-modal slds-modal_large '+(v.open?'slds-fade-in-open ':'')}">
+			<div class="slds-modal__container" style="width:100%">
+				<c:Util_Spinner type="medium" show="false" aura:id="Util_Spinner"/>
+				<div class="slds-modal__header">
+					<lightning:buttonIcon iconName="utility:close"
+						alternativeText="Close"
+						class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+						iconClass="slds-button__icon slds-button__icon_large"
+						variant="bare-inverse"
+						onclick="{!v.onclose}"/>
+					<h2 class="slds-text-heading--medium slds-hyphenate">{!v.title}</h2>
+				</div>
+
+				<div class="slds-modal__content slds-p-around--medium">
+					<div aura:id="LookupListPlaceHolder" class="slds-grid slds-wrap"></div>
+					<div style="padding-top:350px"></div>
+				</div>
+
+				<div class="slds-modal__footer">
+					<button class="slds-button slds-button_neutral" onclick="{!v.oncancel}">Cancel</button>
+					<button aura:id="SaveButton" class="slds-button slds-button_brand" onclick="{!c.save}" disabled="true">Save</button>
+				</div>
+			</div>
+		</div>
+		<div aura:id="theBackdrop" class="{!'slds-backdrop '+(v.open?'slds-backdrop_open':'')}"></div>
+	</div>
+</aura:component>

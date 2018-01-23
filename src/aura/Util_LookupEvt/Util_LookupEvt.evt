@@ -1,0 +1,16 @@
+<aura:event type="COMPONENT">
+	<aura:attribute name="type" type="String"/>
+
+	<aura:attribute name="sObjectId" type="Id" description="The Id of the selected SObject."/>
+	<aura:attribute name="SObjectLabel" type="String" description="The label of the selected SObject."/>
+	<aura:attribute name="instanceId" type="String" description="The id to identify the instance the component"/>
+	<aura:attribute name="index" type="String" description="Index to be mentioned if used in iterations"/>
+
+	<aura:attribute name="cIsReferenceTo" type="Boolean" description="for Select field modal update lookp"/>
+	<aura:attribute name="cReferenceTo" type="String" description="for Select field modal update lookp"/>
+	<aura:attribute name="cFieldType" type="String" description="for Select field modal update lookp"/>
+	<aura:attribute name="cLastObjectName" type="String" description="for Select field modal update lookp"/>
+	<aura:attribute name="cLastFieldName" type="String" description="for Select field modal update lookp"/>
+	<aura:attribute name="globalId" type="String" description="for Select field modal clear lookup"/>
+
+</aura:event>

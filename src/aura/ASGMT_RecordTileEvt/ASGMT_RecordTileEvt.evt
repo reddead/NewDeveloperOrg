@@ -1,0 +1,15 @@
+<aura:event type="COMPONENT" description="Event template">
+  <aura:attribute name="type" type="String" description="RECORD_EDIT,CRITERIA_SET_EDIT"/>
+
+  <aura:attribute name="parentRecord" type="Object" description="for lookup id if parent exists"/>
+  <aura:attribute name="record" type="Object"/>
+
+  <!-- RELATED_LIST_GET -->
+  <aura:attribute name="parentObjectName" type="String"/>
+  <aura:attribute name="parentRecordId" type="String"/>
+
+	<!-- CRITERIA_SET_EDIT -->
+  <aura:attribute name="objectName" type="String"/>
+
+
+</aura:event>

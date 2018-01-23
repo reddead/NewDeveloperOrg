@@ -1,0 +1,5 @@
+({
+	loadObjectNames: function(component) {
+	}
+
+})

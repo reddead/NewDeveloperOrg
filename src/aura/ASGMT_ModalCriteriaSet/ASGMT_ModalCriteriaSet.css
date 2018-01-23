@@ -1,0 +1,93 @@
+/*modal START*/
+
+.THIS .slds-modal__content {
+  overflow-x: auto;
+}
+
+.THIS .slds-backdrop_open {
+  opacity: .8;
+}
+
+
+/*modal END*/
+
+.THIS .criteria-set-padding-bottom {
+  padding-bottom: 200px;
+}
+
+@media (min-width: 48em) {
+  .THIS .criteria-order {
+    width: 1%;
+  }
+  .THIS .criteria-feild {
+    width: 35%;
+  }
+  .THIS .criteria-value {
+    width: 45%;
+  }
+}
+
+@media (min-width: 64em) {
+  .THIS .criteria-operator {
+    width: 15%;
+  }
+}
+
+.THIS .hide-label.slds-form-element {
+  position: static;
+}
+
+.THIS .hide-label .slds-form-element__label, .THIS .hide-label.form-element__label {
+  display: none;
+}
+
+@media (max-width: 48em) {
+  .THIS .criteria-drop-down {
+    overflow: visible;
+  }
+  /*fix select icon display error*/
+  .THIS .slds-select_container:before {
+    top: 28px;
+  }
+  /*fix field select delele icon display error*/
+  .THIS .select-field-icon-fix {
+    top: 70%;
+  }
+}
+
+.THIS .criteria-delete {
+  /*opacity: .8;*/
+  -webkit-transition: all 200ms ease-in;
+  -webkit-transform: scale(1);
+  -ms-transition: all 200ms ease-in;
+  -ms-transform: scale(1);
+  -moz-transition: all 200ms ease-in;
+  -moz-transform: scale(1);
+  transition: all 200ms ease-in;
+  transform: scale(1);
+}
+
+.THIS .criteria-delete:hover {
+  /*opacity: .8;*/
+  -webkit-transition: all 200ms ease-in;
+  -webkit-transform: scale(1.5);
+  -ms-transition: all 200ms ease-in;
+  -ms-transform: scale(1.5);
+  -moz-transition: all 200ms ease-in;
+  -moz-transform: scale(1.5);
+  transition: all 200ms ease-in;
+  transform: scale(1.5);
+}
+
+.THIS .select-field {
+  cursor: pointer;
+}
+
+.THIS .slds-has-error .slds-icon {
+  fill: #c23934;
+  color: #c23934;
+}
+
+.THIS .slds-table tbody tr {
+  vertical-align: top;
+}

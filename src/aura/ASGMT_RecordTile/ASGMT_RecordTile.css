@@ -1,0 +1,183 @@
+/*.THIS .Lead {
+    background-color: #D8BE5F;
+}
+
+.THIS .Contact {
+    background-color: #CFD05C;
+}
+
+.THIS .Enrollment_Opportunity__c {
+    background-color: #F77E75;
+}
+
+.THIS .Equity {
+    background-color: #E9AF67;
+}*/
+
+.THIS .first-item-flex {
+  flex-basis: 65%;
+  flex-shrink: 0;
+}
+
+
+/*@media (min-width: 48em) {
+  .THIS .first-item-none-flex {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 165px;
+  }
+}*/
+
+.THIS .text-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.THIS .assign-to {
+  background-color: rgb(84, 105, 141);
+  border-radius: 50%;
+  /*padding:1px 5px 5px 5px;
+	margin-right: 5px;*/
+  padding: 3px 7px 6px 7px;
+  margin-right: 8px;
+}
+
+.THIS .assign-to-name {
+  /*overflow: hidden;
+  text-overflow: ellipsis;
+  width: 280px;
+  display: inline-block;*/
+}
+
+.THIS .slds-text-link--reset {
+  cursor: default;
+}
+
+.THIS .draggable {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  /*cursor: -webkit-grabbing;*/
+}
+
+.THIS .link-disabled {
+  pointer-events: none;
+  color: rgb(22, 50, 92);
+}
+
+.THIS .slds-avatar--large {
+  /*font-size: .75rem;*/
+  /*background-color: #3ABEB1;*/
+  background-color: rgb(84, 105, 141);
+  font-size: 13.8px;
+  font-variant: small-caps;
+  font-weight: 500;
+  width: 3.2rem;
+  height: 3.2rem;
+  font-style: oblique;
+}
+
+/*for delete button*/
+.THIS .slds-app-launcher__tile-body {
+  position: relative;
+  overflow-x: hidden;
+  /*font-style: oblique;*/
+}
+
+.THIS .parent-record-tile-body {
+  /*border-bottom: 1px solid rgb(0, 112, 210);*/
+}
+
+.THIS .record-tile {
+  /*box-shadow: 0 4px 5px rgba(0, 0, 0, .2);*/
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .2);
+  border: 0;
+  border-radius: .25rem;
+}
+
+.THIS .record-tile:hover, .THIS .record-tile:focus {
+  box-shadow: 1px 1px 8px;
+  /*border: 1px solid rgb(216, 221, 230);*/
+  border-radius: .25rem;
+}
+
+.THIS .parent-record-tile, .THIS .parent-record-tile:hover, .THIS .parent-record-tile:focus {
+  /*border: 1px solid rgb(216, 221, 230);*/
+  /*box-shadow: 0 4px 5px rgba(0, 0, 0, .2);*/
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .2);
+  border: 0;
+  border-bottom: 2px solid rgb(0, 112, 210);
+  border-radius: .25rem;
+}
+
+.THIS .record-delete {
+  padding-right: 6px;
+  cursor: pointer;
+  text-align: right;
+  position: absolute;
+  top: 0;
+  right: 0px;
+}
+
+.THIS .record-delete a {
+  display: inline-block;
+  /*opacity: .8;*/
+  -webkit-transition: all 200ms ease-in;
+  -webkit-transform: scale(1);
+  -ms-transition: all 200ms ease-in;
+  -ms-transform: scale(1);
+  -moz-transition: all 200ms ease-in;
+  -moz-transform: scale(1);
+  transition: all 200ms ease-in;
+  transform: scale(1);
+}
+
+.THIS .record-delete a:hover {
+  text-decoration: none;
+  /*opacity: .8;*/
+  -webkit-transition: all 200ms ease-in;
+  -webkit-transform: scale(1.7);
+  -ms-transition: all 200ms ease-in;
+  -ms-transform: scale(1.7);
+  -moz-transition: all 200ms ease-in;
+  -moz-transform: scale(1.7);
+  transition: all 200ms ease-in;
+  transform: scale(1.7);
+}
+
+.THIS .record-delete a:focus {
+  text-decoration: none;
+}
+
+.THIS .slds-text-link {
+  vertical-align: middle;
+}
+
+
+/*.THIS .slds-text-link:hover {
+	-webkit-transition: all 200ms ease-in;
+	-webkit-transform: scale(1.1);
+	-ms-transition: all 200ms ease-in;
+	-ms-transform: scale(1.1);
+	-moz-transition: all 200ms ease-in;
+	-moz-transform: scale(1.1);
+	transition: all 200ms ease-in;
+	transform: scale(1.1) translateX(8px);
+}*/
+
+.THIS .Entry {
+  background-color: #659AD5;
+}
+
+.THIS .standby {
+  background-color: #04844b;
+}
+
+.THIS .inQueue {
+  background-color: #f49756;
+}
+
+.THIS .invalid {
+  background-color: #c23934;
+}

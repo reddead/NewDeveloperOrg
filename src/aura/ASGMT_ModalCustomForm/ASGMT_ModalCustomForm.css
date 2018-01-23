@@ -1,0 +1,67 @@
+/*modal START*/
+.THIS .slds-modal__content {
+  overflow-x: auto;
+}
+
+.THIS .slds-backdrop_open {
+  opacity: .8;
+}
+/*modal END*/
+
+@media (min-width: 48em) {
+  .THIS .slds-modal_medium .slds-modal__container {
+    width: 70%;
+    max-width: 840px;
+    min-width: 40rem;
+  }
+}
+
+@media (max-width: 599px) {
+  .THIS .slds-form>.slds-grid {
+    display: block;
+  }
+}
+
+.THIS .slds-form>.slds-grid {
+  padding-bottom: 15px;
+}
+
+.THIS .hide-label .slds-form-element__label {
+  display: none;
+}
+
+.THIS .assign-to-left {
+  margin-right: 15px;
+  align-self: flex-start;
+}
+
+.THIS .slds-form-element__control.slds-input-has-icon.slds-input-has-icon--right {
+  margin-top: 3px;
+}
+
+.THIS .custom-dropdown-trigger {
+  height: 0;
+  margin-left: 8px;
+}
+
+.THIS .slds-dropdown-trigger_hover:hover .custom-dropdown {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: opacity .1s linear, visibility .1s linear;
+  transition: opacity .1s linear, visibility .1s linear;
+  position: absolute;
+  bottom: 12px;
+  left: -142.5px;
+  width:300px;
+}
+
+.THIS .slds-dropdown-trigger_hover .custom-dropdown {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity .1s linear, visibility .1s linear;
+  transition: opacity .1s linear, visibility .1s linear;
+  position: absolute;
+  bottom: 12px;
+  left: -142.5px;
+  width:300px;
+}

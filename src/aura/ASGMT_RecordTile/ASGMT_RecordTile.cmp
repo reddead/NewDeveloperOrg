@@ -1,0 +1,183 @@
+<!-- extends="c:ASGMT_Service" -->
+<aura:component controller="Lightning_ASGMT_DataController" access="global">
+	<aura:attribute name="config" type="Object"/>
+
+	<aura:attribute name="objectName" type="String"/>
+	<aura:attribute name="parentRecord" type="Object"/>
+	<aura:attribute name="record" type="Object"/>
+	<aura:attribute name="index" type="Integer"/>
+	<aura:attribute name="initials" type="String"/>
+	<aura:attribute name="iconName" type="String"/>
+
+	<aura:attribute name="memberStatus" type="String" description="for Assignment_Queue_Member__c"/>
+	<aura:attribute name="pageNumber" type="integer"/>
+	<aura:attribute name="firstValidMember" type="Object" description="for Assignment_Queue_Member__c"/>
+	<aura:attribute name="lastAssignment" type="Object" description="for Assignment_Queue_Member__c"/>
+
+	<aura:attribute name="recordError" type="String" access="private"/>
+	<force:recordData aura:id="recordDelete" recordId="{!v.record.Id}" fields="Id" targetError="{!v.recordError}" recordUpdated="{!c.fireASGMT_RecordTileEvt}"/>
+
+	<aura:registerEvent name="tabChange" type="c:ASGMT_TabEvt"/>
+	<aura:registerEvent name="ASGMT_RecordTileEvt" type="c:ASGMT_RecordTileEvt"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:handler name="notifyEvt" event="c:Util_NotifyEvt" action="{!c.deleteRecord}"/>
+
+	<aura:dependency resource="markup://c:Util_Notify"/>
+
+	<!-- <c:Util_Spinner type="medium" show="false" spinnerContainerClass="fixed-position" aura:id="spinner"/> -->
+	<!-- +(v.objectName=='Assignment_Rule_Entry__c'?'slds-p-horizontal_small slds-medium-size_1-of-2':'') -->
+	<!-- !!!NameSpacePrefix issue -->
+	<li
+		aura:id="tile"
+		class="{!'slds-size_1-of-1 '+(v.objectName=='Assignment_Rule__c'||v.objectName=='Assignment_Queue__c'?'slds-p-horizontal_small slds-medium-size_1-of-2':'')+(v.objectName=='Assignment_Queue_Member__c'?'slds-p-horizontal_small slds-medium-size_1-of-3':'')}"
+		data-id="{#v.record.Id}"
+		data-order="{#v.record.Order__c}"
+		data-index="{#v.index}"
+		style="{!v.objectName=='Assignment_Rule_Entry__c'?'margin:0.5rem 0':''}">
+		<div
+			class="{!'slds-app-launcher__tile slds-truncate slds-text-link--reset '+ (and(v.index!=-1,v.objectName=='Assignment_Rule_Entry__c')?'draggable ':'')+(v.index!=-1?'record-tile':'parent-record-tile')}"
+			style="{!v.objectName=='Assignment_Rule_Entry__c'?'margin:0':''}"
+			target="_blank">
+			<div class="slds-app-launcher__tile-figure">
+				<span class="{! 'slds-avatar slds-avatar--large slds-align--absolute-center ' + v.initials +' '+ v.memberStatus}">
+					<!-- !!!NameSpacePrefix issue -->
+					{!v.initials}{!v.objectName=='Assignment_Rule_Entry__c'?'-'+v.record.Order__c:''}
+					<!-- <lightning:icon iconName="{!v.iconName}" size="large"/> -->
+				</span>
+			</div>
+			<div class="{!'slds-app-launcher__tile-body '+(v.index!=-1?'':'parent-record-tile-body')}">
+				<aura:if isTrue="{!v.index!=-1}">
+					<div class="record-delete">
+						<a onclick="{!c.confirmDeletion}" data-id="{!v.record.Id}" data-name="{!v.record.Name}">x</a>
+					</div>
+				</aura:if>
+
+				<div class="{!v.objectName=='Assignment_Rule_Entry__c'?'slds-grid':''}">
+
+					<div class="{!v.objectName=='Assignment_Rule_Entry__c'?'first-item-flex':'text-ellipsis'}">
+						<aura:if isTrue="{!v.index!=-1}">
+							<a class="slds-text-link" onclick="{!c.editRecord}" title="{!v.objectName=='Assignment_Queue_Member__c'?v.record.User__r.Name:v.record.Name}">
+								<!-- !!!NameSpacePrefix issue -->
+								{!v.objectName=='Assignment_Queue_Member__c'?v.record.User__r.Name:v.record.Name}
+							</a>
+							<aura:set attribute="else">
+								<span title="{!v.objectName=='Assignment_Queue_Member__c'?v.record.User__r.Name:v.record.Name}">
+									<!-- !!!NameSpacePrefix issue -->
+									{!v.objectName=='Assignment_Queue_Member__c'?v.record.User__r.Name:v.record.Name}
+								</span>
+							</aura:set>
+						</aura:if>
+					</div>
+
+					<aura:if isTrue="{!v.objectName=='Assignment_Rule_Entry__c'}">
+
+						<div style="cursor: default;">
+							<aura:if isTrue="{!!empty(v.record.Assign_To_User__c)}">
+								<span class="assign-to" title="{!v.record.Assign_To_User__r.Name}">
+									<!-- !!!NameSpacePrefix issue -->
+									<c:Util_SVG class="slds-icon slds-icon--xx-small" xlinkHref="{!$Resource.NGD_SLDS+'/assets/icons/utility-sprite/svg/symbols.svg#user'}"/>
+								</span>
+							</aura:if>
+
+							<aura:if isTrue="{!!empty(v.record.Assign_To_Queue__c)}">
+								<span class="assign-to" title="{!v.record.Assign_To_Queue__r.Name}">
+									<!-- !!!NameSpacePrefix issue -->
+									<c:Util_SVG class="slds-icon slds-icon--xx-small" xlinkHref="{!$Resource.NGD_SLDS+'/assets/icons/utility-sprite/svg/symbols.svg#people'}"/>
+								</span>
+							</aura:if>
+						</div>
+
+						<div class="text-ellipsis" style="cursor: default;">
+								<!-- !!!NameSpacePrefix issue -->
+								<aura:if isTrue="{!!empty(v.record.Assign_To_User__c)}">
+									<span class="assign-to-name" title="{!v.record.Assign_To_User__r.Name}">
+										{!v.record.Assign_To_User__r.Name}
+									</span>
+								</aura:if>
+
+								<!-- !!!NameSpacePrefix issue -->
+								<aura:if isTrue="{!!empty(v.record.Assign_To_Queue__c)}">
+									<span class="assign-to-name" title="{!v.record.Assign_To_Queue__r.Name}">
+										{!v.record.Assign_To_Queue__r.Name}
+									</span>
+								</aura:if>
+
+								<!-- !!!NameSpacePrefix issue -->
+								<aura:if isTrue="{!empty(v.record.Assign_To_User__c) &amp;&amp; empty(v.record.Assign_To_Queue__c)}">
+									<span class="assign-to-name" title="Not Assigned">
+										Not Assigned
+									</span>
+								</aura:if>
+						</div>
+					</aura:if>
+
+				</div>
+
+				<aura:if isTrue="{!v.objectName=='Assignment_Rule__c'}">
+					<div class="text-ellipsis">
+						<aura:if isTrue="{!v.index!=-1}">
+							<a class="slds-text-link" onclick="{!c.getRelatedList}" id="Assignment_Rule_Entry__c" title="Rule Entries">
+								Rule Entries
+							</a>
+							<aura:set attribute="else">
+								<span id="Assignment_Rule_Entry__c" title="Rule Entries">
+									Rule Entries
+								</span>
+							</aura:set>
+						</aura:if>
+					</div>
+					<div class="text-ellipsis" title="{!v.record.Active__c?'Active':'Inactive'}">
+						<!-- !!!NameSpacePrefix issue -->
+						{!v.record.Active__c?'Active':'Inactive'}
+					</div>
+				</aura:if>
+
+				<aura:if isTrue="{!v.objectName=='Assignment_Rule_Entry__c'}">
+					<div class="text-ellipsis">
+						<a class="{! v.index!=-1?'slds-text-link':'slds-text-link link-disabled'}" onclick="{!c.editCriteriaSet}" id="Assignment_Rule_Entry__c" title="Criteria Set">
+							Criteria Set
+						</a>
+					</div>
+				</aura:if>
+
+				<aura:if isTrue="{!v.objectName=='Assignment_Queue__c'}">
+					<div class="text-ellipsis">
+						<aura:if isTrue="{!v.index!=-1}">
+							<a class="slds-text-link " onclick="{!c.getRelatedList}" id="Assignment_Queue_Member__c" title="Queue Members">
+								Queue Members
+							</a>
+							<aura:set attribute="else">
+								<span id="Assignment_Queue_Member__c" title="Queue Members">
+									Queue Members
+								</span>
+							</aura:set>
+						</aura:if>
+					</div>
+					<div class="text-ellipsis" title="{!v.record.Active__c?'Active':'Inactive'}">
+						<!-- !!!NameSpacePrefix issue -->
+						{!v.record.Active__c?'Active':'Inactive'}
+						<aura:if isTrue="{!v.record.Active__c  &amp;&amp; !empty(v.record.Assignment_Queue_Members__r)}">
+							 ({!v.record.Assignment_Queue_Members__r.length})
+							 <aura:set attribute="else">
+								  (0)
+							 </aura:set>
+						 </aura:if>
+					</div>
+				</aura:if>
+
+				<aura:if isTrue="{!v.objectName=='Assignment_Queue_Member__c'}">
+					<div class="text-ellipsis">
+						<!-- !!!NameSpacePrefix issue -->
+						<lightning:formattedDateTime value="{!v.lastAssignment.value}" timeZone="{!v.lastAssignment.timezone}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit" second="2-digit"/>
+					</div>
+					<div class="text-ellipsis" title="{!v.record.Member_Status__c}">
+						{!v.record.Member_Status__c}
+					</div>
+				</aura:if>
+
+			</div>
+		</div>
+		<div aura:id="notifyPlaceholder"/>
+	</li>
+</aura:component>

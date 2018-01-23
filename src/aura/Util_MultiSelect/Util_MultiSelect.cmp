@@ -1,0 +1,48 @@
+<aura:component >
+
+  <!-- public attributes-->
+  <aura:attribute name="options" type="Object[]"/>
+  <aura:attribute name="selectedOptions" type="String[]"/>
+  <aura:attribute name="width" type="String" default="240px;"/>
+  <aura:attribute name="dropdownLength" type="Integer" default="5"/>
+  <aura:attribute name="dropdownOver" type="Boolean" default="false"/>
+  <aura:attribute name="isDropdownOpen" type="Boolean" default="false" access="global"/>
+
+  <!-- private attributes-->
+  <aura:attribute name="options_" type="Object[]"/>
+  <aura:attribute name="infoText" type="String" default="--None--"/>
+
+  <aura:registerEvent name="multiSelectChangeEvt" type="c:Util_MultiSelectEvt"/>
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+  <!-- <aura:handler name="change" value="{!v.options}" action="{!c.setOptions}"/> -->
+  <!-- <aura:method name="reInit" action="{!c.init}" description="Allows the lookup to be reinitalized"></aura:method> -->
+
+  <div aura:id="main-div" class=" slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click ">
+    <!-- onmouseleave="{!c.handleMouseOutButton}" -->
+    <!-- style="{!'width:' + v.width }" -->
+    <button class="slds-button slds-button--neutral slds-picklist__label Util_MultiSelect" onclick="{!c.handleClick}" type="button" aura:id="multiSelectButton">
+      <span class="slds-truncate" title="{!v.infoText}">{!v.infoText}</span>
+      <lightning:icon iconName="utility:down" size="small" class="slds-icon"/>
+    </button>
+
+    <!-- onmouseleave="{!c.handleMouseLeave}"> onmouseenter="{!c.handleMouseEnter}"-->
+    <div class="slds-dropdown slds-dropdown--left" >
+      <!-- <lightning:input type="toggle" label="Select All" name="selectAll"/> -->
+      <!-- <lightning:input type="checkbox" label="Select All" name="selectAll" /> -->
+
+      <ul class="{!'slds-dropdown__list slds-dropdown--length-' + v.dropdownLength}" role="menu">
+        <aura:iteration items="{!v.options_}" var="option">
+          <li class="{!'slds-dropdown__item Util_MultiSelect ' + (option.selected ? 'slds-is-selected ' : '') + (option.value == 'Select All' ? 'select-all' : '')}" role="presentation" onclick="{!c.handleSelection}" data-value="{!option.value}" data-selected="{!option.selected}">
+            <a role="menuitemcheckbox" tabindex="0">
+              <span class="slds-truncate">
+                <lightning:icon iconName="utility:check" size="x-small" class="slds-icon slds-icon--selected slds-icon--x-small slds-icon-text-default slds-m-right--x-small"/>{!option.label}
+              </span>
+            </a>
+          </li>
+        </aura:iteration>
+
+      </ul>
+    </div>
+  </div>
+</aura:component>

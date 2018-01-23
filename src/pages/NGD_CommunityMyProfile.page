@@ -1,0 +1,26 @@
+<apex:page standardstylesheets="false" showheader="false" sidebar="false" applyhtmltag="false" applybodytag="false" doctype="html-5.0" controller="NGD_DataController" extensions="NGD_CommunityMyProfileController">
+
+<html ng-app="AngularApp" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <head>
+      <title></title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/services/MyProfile/MyProfileService.js')}"></script>
+      <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/configs/MyProfile/MyProfileConfig.js')}"></script>
+      <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/controllers/MyProfile/MyProfileCtrl.js')}"></script>
+      <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/controllers/MyProfile/PersonalDataCtrl.js')}"></script>
+      <script src="{!URLFOR($Resource.NGD_CommunityAssets, '/js/controllers/MyProfile/ContactInformationCtrl.js')}"></script>
+      <script type="text/javascript">
+      var dataResultsJSON='{!dataResultsJSON}';
+      </script>
+  </head>
+  <body>
+      <apex:composition template="NGD_CommunityTemplate">
+          <apex:define name="body">
+              <ui-view></ui-view>
+      </apex:define>
+      </apex:composition>
+  </body>
+</html>
+
+</apex:page>
