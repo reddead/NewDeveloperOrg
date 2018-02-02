@@ -46,13 +46,21 @@
 					var self=this;
 					criteriaSet = JSON.parse(criteriaSetJson);
 					criteriaSet.forEach(function(criteria) {
+						var i=0;
 						if (criteria.fieldType == 'picklist' || criteria.fieldType == 'multipicklist') {
 							criteria.options = self.setCriteriaOptions(component, criteria.lastObjectName, criteria.lastFieldName);
 
-							if (criteria.fieldType == 'picklist' && criteria.fieldValue)
+							if (criteria.fieldType == 'picklist' && criteria.fieldValue){
 								criteria.fieldValue = criteria.fieldValue.split(',');
-							else if (criteria.fieldType == 'multipicklist' && criteria.fieldValue)
+								for(i=0;i<criteria.fieldValue.length;i++)
+									criteria.fieldValue[i]=decodeURIComponent(criteria.fieldValue[i]);
+
+							}
+							else if (criteria.fieldType == 'multipicklist' && criteria.fieldValue){
 								criteria.fieldValue = criteria.fieldValue.split(';');
+								for(i=0;i<criteria.fieldValue.length;i++)
+									criteria.fieldValue[i]=decodeURIComponent(criteria.fieldValue[i]);
+							}
 						}
 						if (criteria.fieldType == 'boolean')
 							criteria.fieldValue = (criteria.fieldValue == 'true');
@@ -164,7 +172,7 @@
 				if (criteria.fieldValue) {
 					fieldValue = '';
 					criteria.fieldValue.forEach(function(value) {
-						fieldValue += value + ',';
+						fieldValue += encodeURIComponent(value) + ',';
 					});
 					criteria.fieldValue = fieldValue.substr(0, fieldValue.length - 1);
 				}
@@ -174,7 +182,7 @@
 				if (criteria.fieldValue) {
 					fieldValue = '';
 					criteria.fieldValue.forEach(function(value) {
-						fieldValue += value + ';';
+						fieldValue += encodeURIComponent(value) + ';';
 					});
 					criteria.fieldValue = fieldValue.substr(0, fieldValue.length - 1);
 				}
