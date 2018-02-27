@@ -1,0 +1,9 @@
+.THIS pre {
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  padding: 9px 12px;
+}
+
+.THIS .slds-pill_link,.THIS .slds-pill--link{
+  margin-bottom: 12px;
+}

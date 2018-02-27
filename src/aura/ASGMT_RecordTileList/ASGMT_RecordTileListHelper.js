@@ -5,18 +5,12 @@
   doInit: function(component) {
     this.spinner = component.find('spinner');
 
-    var action = component.get("c.getConfig");
-    action.setStorable();
-    action.setCallback(this, function(response) {
-      var config = response.getReturnValue();
-      component.set("v.config", config);
-      this.nameSpacePrefix = component.get('v.config').nameSpacePrefix;
+    var config = component.get("v.config");
+    this.nameSpacePrefix = component.get('v.config').nameSpacePrefix;
 
-      var params = {};
-      params.objectName = component.get('v.objectName');
-      this.loadRecords(component, params);
-    });
-    $A.enqueueAction(action);
+    var params = {};
+    params.objectName = component.get('v.objectName');
+    this.loadRecords(component, params);
   },
 
   handleASGMT_HeaderEvt: function(component, event) {

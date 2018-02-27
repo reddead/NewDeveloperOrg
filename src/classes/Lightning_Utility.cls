@@ -1,7 +1,12 @@
 public with sharing class Lightning_Utility {
 		public static Map<String, Schema.SobjectType> schemaMap = Schema.getGlobalDescribe();
 		public static Map<String,Schema.DescribeTabResult> tabDescribeMap = getTabDescribeMap();
-		public static String nameSpacePrefix=getNameSpacePerfix('__');
+		public static String nameSpacePrefix {
+				get {
+						return getNameSpacePerfix('__');
+				}
+				set;
+		}
 
 		public static String getSObjectName(Schema.sObjectType t){
 				return t.getDescribe().getName();
@@ -24,16 +29,23 @@ public with sharing class Lightning_Utility {
 		* @description  Method Returns NameSpacePerfix
 		* @return return name space of managed package.
 		*******************************************************************************************************/
+		// public static String getNameSpacePerfix(String prefix){
+		// 		String namespace = null;
+		// 		List<ApexClass> apxs = [SELECT NameSpacePrefix FROM ApexClass WHERE Name = 'Lightning_Utility' and NameSpacePrefix != null];
+		// 		if(apxs.size() > 0) {
+		// 				namespace = apxs[0].NameSpacePrefix;
+		// 				namespace = prefix+namespace;
+		// 		} else {
+		// 				namespace = '';
+		// 		}
+		// 		return namespace;
+		// }
 		public static String getNameSpacePerfix(String prefix){
-				String namespace = null;
-				List<ApexClass> apxs = [SELECT NameSpacePrefix FROM ApexClass WHERE Name = 'Lightning_Utility' and NameSpacePrefix != null];
-				if(apxs.size() > 0) {
-						namespace = apxs[0].NameSpacePrefix;
-						namespace = prefix+namespace;
-				} else {
-						namespace = '';
-				}
-				return namespace;
+				String nameSpace='';
+				if(String.isBlank(nameSpace))
+					return '';
+				else
+					return nameSpace + prefix;
 		}
 
 		public static Set<String> getAssignmentRuleSObjectNames(){
@@ -70,6 +82,31 @@ public with sharing class Lightning_Utility {
 
 				System.debug('>>>SobjectName_TabDescribe.keySet().size(): '+SobjectName_TabDescribe.keySet().size());
 				return SobjectName_TabDescribe;
+		}
+
+		public static String getconfigurationsJson(){
+				List<Configuration__c> configurations = new List<Configuration__c>();
+				configurations = [SELECT Related_To__c,Related_To_Value__c FROM Configuration__c WHERE Name =: System_Constant.ASSIGNMENT_MANAGER order by Related_To__c];
+
+				return JSON.serialize(configurations);
+		}
+
+		public static String getSObjectNamesJson(){
+				List<String> sObjectNames = new List<String>();
+				for(Schema.SObjectType sObjectType : schemaMap.values()) {
+						Schema.DescribeSObjectResult sObj=sObjectType.getDescribe();
+						if(sObj.isQueryable() && sObj.isAccessible() && sObj.isCreateable() && sObj.isUpdateable()) {
+								if(sObj.getName().endsWith('ContentVersion')||
+								   sObj.getName().endsWith('__Share')||
+								   sObj.getName().endsWith('ContentDocumentLink')||
+								   sObj.getName().endsWith('FeedComment'))
+										continue;
+								sObjectNames.add(sObj.getName());
+						}
+				}
+				sObjectNames.sort();
+
+				return JSON.serialize(sObjectNames);
 		}
 
 		public static String getSObjectDescribesJson(Set<String> sObjectNames){
@@ -410,12 +447,43 @@ public with sharing class Lightning_Utility {
 		}
 
 		public static void setActiveRule( String recordId, String relatedObject){
-				List<SObject> rules=[Select Id, Active__c From Assignment_Rule__c Where Related_Object__c=: relatedObject];
-				String activeFieldApi=nameSpacePrefix + 'Active__c';
-				for(SObject rule:rules) {
-						if(rule.get('Id')!=recordId)
-								rule.put(activeFieldApi,false);
+				List<Assignment_Rule__c> rules=[Select Id, Active__c,Fire_On_Update__c From Assignment_Rule__c Where Related_Object__c=: relatedObject];
+				if(rules.size()>0){
+					if(String.isNotBlank(recordId)){
+						String activeFieldApi=nameSpacePrefix + 'Active__c';
+						for(Assignment_Rule__c rule:rules) {
+								if(rule.get('Id')!=recordId)
+										rule.put(activeFieldApi,false);
+						}
+						update rules;
+					}
+
+					Boolean hasActiveFireOnUpdate=false;
+					for(Assignment_Rule__c rule:rules) {
+							if(rule.Active__c && rule.Fire_On_Update__c)
+									hasActiveFireOnUpdate=true;
+					}
+					setConfiguration(relatedObject,hasActiveFireOnUpdate);
 				}
-				update rules;
+		}
+
+		public static void setConfiguration(String relatedObject, Boolean hasActiveFireOnUpdate){
+			List<Configuration__c> configurations = new List<Configuration__c>();
+			configurations = [SELECT Related_To__c,Related_To_Value__c FROM Configuration__c WHERE Name =: System_Constant.ASSIGNMENT_MANAGER and Related_To__c=:relatedObject order by Related_To__c limit 1];
+
+			if(configurations.size()>0) {
+					if(hasActiveFireOnUpdate){
+						if(configurations[0].Related_To_Value__c!='Fire On Update'){
+							configurations[0].Related_To_Value__c='Fire On Update';
+							update configurations[0];
+						}
+					}
+					else{
+						if(String.isNotBlank(configurations[0].Related_To_Value__c)){
+							configurations[0].Related_To_Value__c='';
+							update configurations[0];
+						}
+					}
+			}
 		}
 }

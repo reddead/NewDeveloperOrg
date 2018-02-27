@@ -41,7 +41,7 @@
       'notificationMessage':'Back To Setup Confirmed'
     });
     notifyEvt.fire();
-    this.cancel(cmp);
+    // this.cancel(cmp);
   },
 
   setNotification: function(cmp, event, helper) {

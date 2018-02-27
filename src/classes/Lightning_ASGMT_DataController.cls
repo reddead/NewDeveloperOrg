@@ -1,15 +1,13 @@
 public with sharing class Lightning_ASGMT_DataController {
-		public static String nameSpacePrefix=Lightning_Utility.getNameSpacePerfix('__');
-
 		@AuraEnabled
 		public static Lightning_Auxiliary.Config getConfig(){
-				Lightning_Auxiliary.Config c=new Lightning_Auxiliary.Config();
-				c.nameSpacePrefix=Lightning_Utility.getNameSpacePerfix('__');
-
-				Set<String> assignmentRuleSObjectNames=Lightning_Utility.getAssignmentRuleSObjectNames();
-				c.sObjectDescribesJson=Lightning_Utility.getSObjectDescribesJson(assignmentRuleSObjectNames);
-				System.debug('>>>c: '+c);
-				return c;
+			Lightning_Auxiliary.Config c=new Lightning_Auxiliary.Config();
+			c.nameSpacePrefix=Lightning_Utility.nameSpacePrefix;
+			c.isAssignmentManagerActive=Feature_Manager__c.getOrgDefaults().AssignmentRule__c;
+			c.configurationsJson=Lightning_Utility.getconfigurationsJson();
+			c.sObjectNamesJson=Lightning_Utility.getSObjectNamesJson();
+			c.sObjectDescribesJson=Lightning_Utility.getSObjectDescribesJson(Lightning_Utility.getAssignmentRuleSObjectNames());
+			return c;
 		}
 
 		// @AuraEnabled
@@ -28,17 +26,17 @@ public with sharing class Lightning_ASGMT_DataController {
 		//      return picklistOptions;
 		// }
 
-		@AuraEnabled
-		public static List<Lightning_Auxiliary.Option> getAssignmentRuleObjectOptions(){
-				List<Lightning_Auxiliary.Option> options=new List<Lightning_Auxiliary.Option>();
-				options.add(new Lightning_Auxiliary.Option('-- None --',''));
-
-				for(String sobjectName:Lightning_Utility.getAssignmentRuleSObjectNames())
-						options.add(new Lightning_Auxiliary.Option(sobjectName,sobjectName));
-
-				options.sort();
-				return options;
-		}
+		// @AuraEnabled
+		// public static List<Lightning_Auxiliary.Option> getAssignmentRuleObjectOptions(){
+		// 		List<Lightning_Auxiliary.Option> options=new List<Lightning_Auxiliary.Option>();
+		// 		options.add(new Lightning_Auxiliary.Option('-- None --',''));
+		//
+		// 		for(String sobjectName:Lightning_Utility.getAssignmentRuleSObjectNames())
+		// 				options.add(new Lightning_Auxiliary.Option(sobjectName,sobjectName));
+		//
+		// 		options.sort();
+		// 		return options;
+		// }
 
 		@AuraEnabled
 		public static Lightning_Auxiliary.PagedResult getPagedResult(String objectName,String customFields,String whereClause,String otherClause,String paramsJson) {
@@ -52,13 +50,15 @@ public with sharing class Lightning_ASGMT_DataController {
 
 				if(objectName.contains('Assignment_Rule__c')) {
 						if(paramMap.containsKey('isRuleActive')) {
-								Boolean isRuleActive=(Boolean)paramMap.get('isRuleActive');
-								if(isRuleActive) {
-										String ruleId=(String)paramMap.get('ruleId');
-										String ruleRelatedObject=(String)paramMap.get('ruleRelatedObject');
-										Lightning_Utility.setActiveRule(ruleId,ruleRelatedObject);
-										pr.records=Lightning_Utility.getSObjectRecords(objectName,customFields,whereClause,otherClause,Lightning_Constant.RequiredFieldTypes.ALL_FIELDS_WITH_CUSTOM_FIELDS);
-								}
+							Boolean isRuleActive=(Boolean)paramMap.get('isRuleActive');
+							String ruleRelatedObject=(String)paramMap.get('ruleRelatedObject');
+							if(isRuleActive) {
+									String ruleId=(String)paramMap.get('ruleId');
+									Lightning_Utility.setActiveRule(ruleId,ruleRelatedObject);
+									pr.records=Lightning_Utility.getSObjectRecords(objectName,customFields,whereClause,otherClause,Lightning_Constant.RequiredFieldTypes.ALL_FIELDS_WITH_CUSTOM_FIELDS);
+							}
+							else
+								Lightning_Utility.setActiveRule('',ruleRelatedObject);
 						}
 				}
 				else if(objectName.contains('Assignment_Rule_Entry__c')) {
@@ -108,7 +108,43 @@ public with sharing class Lightning_ASGMT_DataController {
 		}
 
 		@AuraEnabled
-		public static Boolean validateRelatedObject(String relatedObject){
-				return Lightning_Utility.validateRelatedObject(relatedObject);
+		public static Configuration__c insertConfiguration(String objectName){
+			List<Configuration__c> configurations=new List<Configuration__c>();
+			configurations=[SELECT Related_To__c,Related_To_Value__c FROM Configuration__c WHERE Name =: System_Constant.ASSIGNMENT_MANAGER AND Related_To__c=:objectName AND Related_To_Value__c='true'];
+
+			if(configurations.size()==0){
+				Configuration__c pc =new Configuration__c();
+				pc.Name=System_Constant.ASSIGNMENT_MANAGER;
+				pc.Related_To__c=objectName;
+				insert pc;
+
+				Lightning_Utility.setActiveRule('',objectName);
+
+				return pc;
+			}
+
+			return null;
 		}
+
+		@AuraEnabled
+		public static void deleteConfiguration(String deleteConfigurationId){
+			List<Configuration__c> configurations=new List<Configuration__c>();
+			configurations=[SELECT Related_To__c,Related_To_Value__c FROM Configuration__c WHERE Id=:deleteConfigurationId limit 1];
+
+			if(configurations.size()!=0){
+				//check related assignment rules and delete
+				List<Assignment_Rule__c> assignmentRules=new List<Assignment_Rule__c>();
+				assignmentRules=[SELECT Id from Assignment_Rule__c where Related_Object__c=:configurations[0].Related_To__c];
+
+				if(assignmentRules.size()!=0)
+					delete assignmentRules;
+
+				delete configurations[0];
+			}
+		}
+
+		// @AuraEnabled
+		// public static Boolean validateRelatedObject(String relatedObject){
+		// 		return Lightning_Utility.validateRelatedObject(relatedObject);
+		// }
 }

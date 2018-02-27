@@ -1,0 +1,47 @@
+<aura:component controller="Lightning_ASGMT_DataController">
+	<aura:attribute name="config" type="Object"/>
+	<aura:attribute name="configurations" type="Object[]"/>
+	<aura:attribute name="sObjectNames" type="Object[]"/>
+
+	<aura:registerEvent name="ASGMT_SettingEvt" type="c:ASGMT_SettingEvt"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:handler name="notifyEvt" event="c:Util_NotifyEvt" action="{!c.deactivateAssignment}"/>
+
+	<aura:dependency resource="markup://c:Util_Notify"/>
+
+	<c:Util_Spinner type="medium" show="false" spinnerContainerClass="fixed-position" aura:id="spinner"/>
+
+	<aura:if isTrue="{!!empty(v.sObjectNames)}">
+		<div>
+		<p style="margin:8px 0;font-size: 1.2rem;">Activate/Deactivate Assignment for Available SObject Type</p>
+		<p style="margin-bottom:8px">To activate/diactivate assignment, please add/remove an SObject type below.<br/>Note that the SObject type you selected must be in the available SObject type list, otherwise please see section <span>'Enable Assignmment for Other SObject Types'</span></p>
+		<lightning:select label="Select SObject Type" class="slds-size_1-of-1 slds-medium-size--1-of-2" onchange="{!c.addConfiguration}">
+			<option value="">-- None --</option>
+			<aura:iteration items="{!v.sObjectNames}" var="item">
+				<option text="{!item.label}" value="{!item.value}"/>
+			</aura:iteration>
+		</lightning:select>
+
+		<br/>
+
+		<aura:iteration items="{!v.configurations}" var="configuration">
+			<lightning:pill label="{!configuration.objectName}" onremove="{!c.pillButtonClicked}" name="{!configuration.index}">
+				<aura:set attribute="media">
+					<lightning:icon iconName="{!configuration.iconName}" alternativeText="{!configuration.objectName}"/>
+				</aura:set>
+			</lightning:pill>
+			<br/>
+		</aura:iteration>
+
+		<p style="margin:8px 0;font-size: 1.2rem;">Enable Assignmment for other SObject Types</p>
+		<p>
+			To enable assignmment for other SObject types which are not listed: <br/>
+			1) add the following line of code to this SObject type's trigger on <b>after insert</b> and <b>after update</b> event<br/>
+			<pre>System_FeatureManager.performTask(System_FeatureAssignmentRule.class);</pre>
+			2) activate assignment for this SObject type, please see section 'Activate/Deactivate Assignment for Available SObject Type'
+		</p>
+	</div>
+	<div aura:id="notifyPlaceholder"/>
+	</aura:if>
+</aura:component>

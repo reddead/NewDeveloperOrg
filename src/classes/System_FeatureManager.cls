@@ -18,12 +18,21 @@ global with sharing class System_FeatureManager {
 								return;
 						}
 
+						// check feature permission
+						if(!checkFeatureRule(t.getName()))
+							return;
+
 						// Execute the handler to fulfil the trigger
 						objFeature.execute();
 				} catch(Exception e) {
 						Database.rollback(sp);
 				}
 		}
+
+		private static Boolean checkFeatureRule(string fnName){
+
+      return true;
+    }
 
 
 		private static Boolean checkPermission(string fmName){

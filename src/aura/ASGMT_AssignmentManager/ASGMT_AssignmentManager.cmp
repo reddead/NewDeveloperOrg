@@ -1,18 +1,41 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+<aura:component implements="force:appHostable" controller="Lightning_ASGMT_DataController">
 	<ltng:require scripts="{!$Resource.Lightning_ASGMT_Asset + '/js/jquery.min.js'}"/>
 
-	<aura:attribute name="objectName" type="String" default="Assignment_Rule__c"/>
+	<aura:attribute name="config" type="Object"/>
+	<aura:attribute name="objectName" type="String" default="AssignmentSetting"/>
 
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 	<aura:handler event="c:ASGMT_TabEvt" action="{!c.handleTabChangeEvt}"/>
+	<aura:handler name="ASGMT_SettingEvt" event="c:ASGMT_SettingEvt" action="{!c.handleASGMT_SettingEvt}"/>
 
-	<c:ASGMT_Header />
+	<c:Util_Spinner type="medium" show="false" spinnerContainerClass="fixed-position" aura:id="spinner"/>
+
+	<aura:if isTrue="{!!empty(v.config)}">
+
+	<c:ASGMT_Header isAssignmentManagerActive="{!v.config.isAssignmentManagerActive}"/>
 
 	<div class="slds-grid slds-wrap content">
 		<div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 col1">
-			<c:ASGMT_Tab />
+			<c:ASGMT_Tab config="{!v.config}"/>
 		</div>
 
 		<div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 col2">
+
+			<aura:if isTrue="{!v.objectName=='AssignmentSetting'}">
+			<div class="side-help">
+				<div class="landing__section-content slds-tabs_card">
+					<h2 class="landing__heading_small slds-text-title_caps slds-m-bottom--small">Assignment Setting</h2>
+					<p>
+						By default, available for these SObject types: <br/>
+						Account<br/>
+						Contact<br/>
+						Application<br/>
+						Lead
+					</p>
+				</div>
+			</div>
+			</aura:if>
+
 			<aura:if isTrue="{!v.objectName=='Assignment_Rule__c'}">
 			<div class="side-help">
 				<div class="landing__section-content slds-tabs_card">
@@ -60,11 +83,12 @@
 			</div>
 			</aura:if>
 
-			<aura:if isTrue="{!v.objectName!='Assignment_Rule_Entry__c'}">
-				<c:ASGMT_Filter objectName="{!v.objectName}"/>
+			<aura:if isTrue="{!v.objectName!='Assignment_Rule_Entry__c'&amp;&amp;v.objectName!='AssignmentSetting'}">
+				<c:ASGMT_Filter objectName="{!v.objectName}" config="{!v.config}"/>
 			</aura:if>
 
 		</div>
 
 	</div>
+	</aura:if>
 </aura:component>

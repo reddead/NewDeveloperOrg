@@ -1,12 +1,19 @@
 <aura:component implements="flexipage:availableForAllPageTypes" access="global">
-
-	<aura:attribute name="selectedTabId" type="String" default="Assignment_Rule__c"/>
+	<aura:attribute name="config" type="Object"/>
+	<aura:attribute name="selectedTabId" type="String" default="AssignmentSetting"/>
 
 	<aura:registerEvent name="tabChange" type="c:ASGMT_TabEvt"/>
 
+	<aura:dependency resource="markup://c:ASGMT_Setting"/>
 	<aura:dependency resource="markup://c:ASGMT_RecordTileList"/>
 
 	<lightning:tabset selectedTabId="{!v.selectedTabId}" class="slds-tabs_card">
+		<lightning:tab onactive="{!c.handleOnActive}" id="AssignmentSetting" aura:id="AssignmentSetting">
+			<aura:set attribute="label">
+				<lightning:icon iconName="utility:tile_card_list" size="x-small"/>
+				Assignment Setting
+			</aura:set>
+		</lightning:tab>
 		<lightning:tab onactive="{!c.handleOnActive}" id="Assignment_Rule__c" aura:id="Assignment_Rule__c">
 			<aura:set attribute="label">
 				<lightning:icon iconName="utility:tile_card_list" size="x-small"/>

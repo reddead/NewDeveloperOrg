@@ -21,6 +21,15 @@ public with sharing class Lightning_Auxiliary {
 			public String nameSpacePrefix { get; set; }
 
 			@AuraEnabled
+			public Boolean isAssignmentManagerActive { get; set; }
+
+			@AuraEnabled
+			public String configurationsJson { get; set; }
+
+			@AuraEnabled
+			public String sObjectNamesJson { get; set; }
+
+			@AuraEnabled
 			public String sObjectDescribesJson { get; set; }
 	}
 
@@ -32,28 +41,28 @@ public with sharing class Lightning_Auxiliary {
 			public String relatedObject { get; set; }
 	}
 
-	public class Option implements Comparable {
-		public Option(String label,String value) {
-				this.label = label;
-				this.value = value;
-		}
-
-			@AuraEnabled
-			public String label { get; set; }
-
-			@AuraEnabled
-			public String value { get; set; }
-
-			// Implement the compareTo() method
-			public Integer compareTo(Object compareTo) {
-					Option comp = (Option)compareTo;
-					if (value < comp.value)
-							return -1;
-					if (value > comp.value)
-							return 1;
-					return 0;
-			}
-	}
+	// public class Option implements Comparable {
+	// 	public Option(String label,String value) {
+	// 			this.label = label;
+	// 			this.value = value;
+	// 	}
+	//
+	// 		@AuraEnabled
+	// 		public String label { get; set; }
+	//
+	// 		@AuraEnabled
+	// 		public String value { get; set; }
+	//
+	// 		// Implement the compareTo() method
+	// 		public Integer compareTo(Object compareTo) {
+	// 				Option comp = (Option)compareTo;
+	// 				if (value < comp.value)
+	// 						return -1;
+	// 				if (value > comp.value)
+	// 						return 1;
+	// 				return 0;
+	// 		}
+	// }
 
 	public class Criteria {
 		public Decimal order;

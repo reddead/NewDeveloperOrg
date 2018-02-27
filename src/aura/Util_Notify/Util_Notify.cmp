@@ -106,14 +106,26 @@ Component to display notification in lightning. This uses lightining design syst
           </div>
 
           <div class="slds-modal__footer">
-            <button class="slds-button slds-button_neutral" onclick="{!c.cancel}">Cancel</button>
+            <aura:if isTrue="{!v.message!='Please activate Assignment Manager first' &amp;&amp; v.popupheader!='No activated SObject type found'}">
+              <button class="slds-button slds-button_neutral" onclick="{!c.cancel}">Cancel</button>
+            </aura:if>
 
-            <aura:if isTrue="{!v.popupheader=='Back to setup'}">
+            <aura:if isTrue="{!v.popupheader=='No activated SObject type found'}">
+              <button aura:id="confirmButton" class="slds-button slds-button_brand" onclick="{!c.cancel}">Confirm</button>
+            </aura:if>
+
+            <aura:if isTrue="{!v.popupheader=='Back to Setup'}">
               <button aura:id="confirmButton" class="slds-button slds-button_brand" onclick="{!c.backToSetup}">Confirm</button>
             </aura:if>
-            <aura:if isTrue="{!v.popupheader!='Back to setup'}">
+
+            <aura:if isTrue="{!v.popupheader!='Back to Setup' &amp;&amp; v.popupheader!='No activated SObject type found' &amp;&amp; v.popupheader!='Deactivate Assignment'}">
               <button aura:id="deleteButton" class="slds-button slds-button_brand" onclick="{!c.delete}">Delete</button>
             </aura:if>
+
+            <aura:if isTrue="{!v.popupheader=='Deactivate Assignment'}">
+            <button aura:id="deleteButton" class="slds-button slds-button_brand" onclick="{!c.delete}">Deactivate</button>
+          </aura:if>
+
           </div>
         </div>
       </div>

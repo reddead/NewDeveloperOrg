@@ -9,6 +9,8 @@
 	<aura:attribute name="parentRecord" type="Object" description="for lookup id if parent exists"/>
 	<aura:attribute name="record" type="Object"/>
 
+	<aura:attribute name="relatedObjectOptions" type="Object[]"/>
+
 	<!-- special attribute -->
 	<aura:attribute name="oldOrder" type="String" description="old order for Rule Entry"/>
 	<!-- special attribute -->
@@ -62,7 +64,15 @@
 								</div>
 								<div class="slds-has-flexi-truncate slds-p-horizontal_medium ">
 									<!-- !!!NameSpacePrefix issue -->
-									<lightning:input aura:id="field" label="Related Object" name="relatedObjectField" value="{!v.simpleRecord.Related_Object__c}" onchange="{!c.clearCustomFieldError}" required="true"/>
+									<!-- <lightning:input aura:id="field" label="Related Object" name="relatedObjectField" value="{!v.simpleRecord.Related_Object__c}" onchange="{!c.clearCustomFieldError}" required="true"/> -->
+									<aura:if isTrue="{!!empty(v.relatedObjectOptions)}">
+									<lightning:select aura:id="field" label="Related Object" name="relatedObjectField" value="{!v.simpleRecord.Related_Object__c}" required="true">
+										<option value="">-- None --</option>
+										<aura:iteration items="{!v.relatedObjectOptions}" var="item">
+											<option text="{!item.label}" value="{!item.value}"/>
+										</aura:iteration>
+									</lightning:select>
+								</aura:if>
 								</div>
 							</div>
 

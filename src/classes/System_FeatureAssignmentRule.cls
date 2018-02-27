@@ -7,30 +7,42 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 		//toUpdateSObjectList for assign rule
 		public List<sObject> toUpdateSObjectList=new List<sObject>();
 
-		global Static Boolean isAssignmentRuleRunning =false;
-		// public Static Boolean isupdateFired =false;
+		public static Map<String,Boolean> TriggerObjectName_IsARExecuting = new Map<String,Boolean>();
+
+		public static List<Configuration__c> configurations=[SELECT Related_To__c,Related_To_Value__c FROM Configuration__c WHERE Name =: System_Constant.ASSIGNMENT_MANAGER];
+
+		public static Map<String,String> ObjectName_IsFireOnUpdate{
+			get{
+				ObjectName_IsFireOnUpdate=new Map<String,String>();
+				if(configurations.size()>0){
+					for(Configuration__c configuration:configurations)
+							ObjectName_IsFireOnUpdate.put(configuration.Related_To__c,configuration.Related_To_Value__c);
+				}
+				return ObjectName_IsFireOnUpdate;
+			}
+			set;
+		}
 
 		public void execute() {
-				System_FeatureAssignmentRule.isAssignmentRuleRunning=true;
+				if(!Feature_Manager__c.getOrgDefaults().AssignmentRule__c)
+						return;
 
 				//System_FeatureAssignmentRule only fires on after insert and after update
 				List<sObject> sObjectList=Trigger.new;
 				//get sObjectName for Assignment_Rule__c.Related_Object__c
 				String sObjectName=sObjectList[0].getSObjectType().getDescribe().getName();
 
+				//if not activated for this SOject type
+				if(!ObjectName_IsFireOnUpdate.containsKey(sObjectName))
+					return;
+				//if fire on update not required for this SOject type, dont fire assignment rule on update
+				else if(ObjectName_IsFireOnUpdate.get(sObjectName)!='Fire On Update' && Trigger.isUpdate)
+					return;
+
 				List<Assignment_Rule__c> rules=[Select Id, Active__c, Fire_On_Update__c,(Select Id,Criteria_Logic__c,Criteria_Set__c,Order__c,Assign_To_User__c,Assign_To_Queue__c From Assignment_Rule_Entries__r Order By Order__c) From Assignment_Rule__c Where Related_Object__c=: sObjectName And Active__c=true];
 
-				System.debug('>>>sObjectName: '+sObjectName);
-				System.debug('>>>Trigger.isBefore: '+Trigger.isBefore);
-				System.debug('>>>Trigger.isAfter: '+Trigger.isAfter);
-				System.debug('>>>Trigger.isInsert: '+Trigger.isInsert);
-				System.debug('>>>Trigger.isUpdate: '+Trigger.isUpdate);
-
 				if(rules.size()!=0) {
-						//if Fire_On_Update__c not checked, dont fire assignment rule on update
-						if(!rules[0].Fire_On_Update__c && Trigger.isUpdate)
-								return;
-
+						////assignment process
 						List<Assignment_Rule_Entry__c> ruleEntries=rules[0].Assignment_Rule_Entries__r;
 
 						if(ruleEntries.size()!=0) {
@@ -70,11 +82,13 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 								system.debug('>>>toUpdateSObjectList: '+toUpdateSObjectList);
 
 								//update gathered SObjectList for assignent rule
-								if(toUpdateSObjectList.size()!=0)
-										update toUpdateSObjectList;
+								if(toUpdateSObjectList.size()!=0){
+									System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.put(sObjectName,true);
+									update toUpdateSObjectList;
+									System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.put(sObjectName,false);
+								}
 						}
 				}
-				System_FeatureAssignmentRule.isAssignmentRuleRunning=false;
 		}
 
 		//handleAssignmentPhase1 to re-assign OwnerId and  gather SObjectRecords assigned to a queue if any

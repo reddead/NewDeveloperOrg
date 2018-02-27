@@ -10,6 +10,9 @@ public with sharing class System_TriggerFactory
      */
     public static void createHandler(Type t)
     {
+        if(!checkTriggerRule())
+        return;
+
         // Get a handler appropriate to the object being processed
         System_TriggerHandler handler = getHandler(t);
 
@@ -21,6 +24,19 @@ public with sharing class System_TriggerFactory
         execute(handler);
     }
 
+    private static Boolean checkTriggerRule(){
+      if(Trigger.isUpdate){
+          String sObjectName=Trigger.new[0].getSObjectType().getDescribe().getName();
+
+          System.debug('>>>sObjectName:'+sObjectName);
+          System.debug('>>>System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.get(sObjectName):'+System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.get(sObjectName));
+
+          if(System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.get(sObjectName)!=null && System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.get(sObjectName))
+              return false;
+      }
+      return true;
+    }
+
     /**
      * private static method to control the execution of the handler
      *
@@ -28,9 +44,6 @@ public with sharing class System_TriggerFactory
      */
     private static void execute(System_TriggerHandler handler)
     {
-      if(Trigger.isUpdate&&System_FeatureAssignmentRule.isAssignmentRuleRunning)
-        return;
-
         if (Trigger.isBefore) {
             // Call the bulk before to handle any caching of data and enable bulkification
             handler.bulkBefore();

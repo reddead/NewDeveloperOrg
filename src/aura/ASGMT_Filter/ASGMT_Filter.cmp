@@ -1,6 +1,7 @@
 <aura:component implements="flexipage:availableForAllPageTypes" access="global">
 
   <aura:attribute name="objectName" type="String" default="Assignment_Rule__c"/>
+  <aura:attribute name="config" type="Object"/>
 
   <aura:registerEvent name="filterChange" type="c:ASGMT_FilterEvt"/>
 
@@ -21,7 +22,7 @@
     </aura:if>
 
     <aura:if isTrue="{!v.objectName=='Assignment_Rule__c'}">
-        <c:ASGMT_FilterRelatedObject onchange="{!c.relatedObjectChangeHandler}"/>
+        <c:ASGMT_FilterRelatedObject onchange="{!c.relatedObjectChangeHandler}" config="{!v.config}"/>
     </aura:if>
   </div>
 </aura:component>

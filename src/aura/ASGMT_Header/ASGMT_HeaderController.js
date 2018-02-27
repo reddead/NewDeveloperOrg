@@ -1,8 +1,10 @@
 ({
-  doInit: function(component, event, helper) {},
+  doInit: function(component, event, helper) {
+    helper.doInit(component, event);
+  },
 
-  handleTabChangeEvt: function(component, event, helper) {
-    helper.handleTabChangeEvt(component, event);
+  handleASGMT_TabEvt: function(component, event, helper) {
+    helper.handleASGMT_TabEvt(component, event);
   },
 
   handleNotifyEvt: function(component, event, helper) {

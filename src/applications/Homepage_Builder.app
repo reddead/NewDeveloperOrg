@@ -7,6 +7,7 @@
     <label>Homepage Builder</label>
     <navType>Standard</navType>
     <tab>Homepage_Builder</tab>
+    <tab>Configuration__c</tab>
     <uiType>Lightning</uiType>
     <utilityBar>Homepage_Builder_UtilityBar</utilityBar>
 </CustomApplication>

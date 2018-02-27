@@ -7,6 +7,7 @@
 	Util_Spinner: null,
 
 	doInit: function(component) {
+		var self=this;
 		this.nameSpacePrefix = component.get('v.config').nameSpacePrefix;
 		this.objectName = component.get('v.objectName');
 		this.parentRecord = component.get('v.parentRecord');
@@ -16,6 +17,21 @@
 
 		if ($A.util.isEmpty(this.record))
 			this.getNewRecord(component);
+
+		//set relatedObject picklistOptions
+		if (this.objectName.indexOf('Assignment_Rule__c') != -1){
+	      var config=component.get('v.config');
+	      var configurations = JSON.parse(config.configurationsJson);
+				var relatedObjectOptions=component.get('v.relatedObjectOptions');
+				relatedObjectOptions=[];
+	      configurations.forEach(function(configuration) {
+					var item={};
+					item.label=configuration[self.nameSpacePrefix+'Related_To__c'];
+					item.value=configuration[self.nameSpacePrefix+'Related_To__c'];
+					relatedObjectOptions.push(item);
+				});
+				component.set('v.relatedObjectOptions',relatedObjectOptions);
+		}
 
 		if (this.objectName.indexOf('Assignment_Rule_Entry__c') != -1)
 			component.set("v.cssStyle", ".forceStyle .viewport .oneHeader.slds-global-header_container {z-index:0;}");
@@ -237,29 +253,33 @@
 
 		//Save Assignment_Rule__c
 		if (this.objectName.indexOf('Assignment_Rule__c') != -1) {
-			var relatedObjectField = component.find('field')[1];
-
-			var action = component.get('c.validateRelatedObject');
-			action.setParams({
-				"relatedObject": simpleRecord[this.nameSpacePrefix + 'Related_Object__c'],
-			});
-			action.setCallback(this, function(response) {
-				var isValid = response.getReturnValue();
-				if (isValid) {
-					if (this.record != null)
-						self.saveRecord(component, ASGMT_ModalEvt, self, 'recordEditor');
-					else
-						self.saveRecord(component, ASGMT_ModalEvt, self, 'recordCreator');
-				} else {
-					//force it to display custom error
-					relatedObjectField.set('v.pattern', 'Incorrect object API name');
-					relatedObjectField.set('v.messageWhenPatternMismatch', 'Incorrect object API name');
-					relatedObjectField.showHelpMessageIfInvalid();
-					this.Util_Notify.set('v.show', true);
-					this.Util_Spinner.set('v.show', false);
-				}
-			});
-			$A.enqueueAction(action);
+			// var relatedObjectField = component.find('field')[1];
+			//
+			// var action = component.get('c.validateRelatedObject');
+			// action.setParams({
+			// 	"relatedObject": simpleRecord[this.nameSpacePrefix + 'Related_Object__c'],
+			// });
+			// action.setCallback(this, function(response) {
+			// 	var isValid = response.getReturnValue();
+			// 	if (isValid) {
+			// 		if (this.record != null)
+			// 			self.saveRecord(component, ASGMT_ModalEvt, self, 'recordEditor');
+			// 		else
+			// 			self.saveRecord(component, ASGMT_ModalEvt, self, 'recordCreator');
+			// 	} else {
+			// 		//force it to display custom error
+			// 		relatedObjectField.set('v.pattern', 'Incorrect object API name');
+			// 		relatedObjectField.set('v.messageWhenPatternMismatch', 'Incorrect object API name');
+			// 		relatedObjectField.showHelpMessageIfInvalid();
+			// 		this.Util_Notify.set('v.show', true);
+			// 		this.Util_Spinner.set('v.show', false);
+			// 	}
+			// });
+			// $A.enqueueAction(action);
+			if (this.record != null)
+				self.saveRecord(component, ASGMT_ModalEvt, self, 'recordEditor');
+			else
+				self.saveRecord(component, ASGMT_ModalEvt, self, 'recordCreator');
 		}
 		//Save Assignment_Rule_Entry__c
 		else if (this.objectName.indexOf('Assignment_Rule_Entry__c') != -1) {
