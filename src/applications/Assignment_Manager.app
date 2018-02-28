@@ -7,7 +7,6 @@
     <label>Assignment Manager</label>
     <navType>Standard</navType>
     <tab>Assignment_Manager</tab>
-    <tab>Configuration__c</tab>
     <uiType>Lightning</uiType>
     <utilityBar>Assignment_Manager_UtilityBar</utilityBar>
 </CustomApplication>

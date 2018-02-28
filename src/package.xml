@@ -33,6 +33,7 @@
         <members>Assignment_Rule_Entry__c</members>
         <members>Assignment_Rule__c</members>
         <members>Concentration__c</members>
+        <members>Configuration__c</members>
         <members>Education_History__c</members>
         <members>Environment__c</members>
         <members>Family__c</members>
