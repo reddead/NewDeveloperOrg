@@ -110,7 +110,7 @@ public with sharing class Lightning_ASGMT_DataController {
 		@AuraEnabled
 		public static Configuration__c insertConfiguration(String objectName){
 			List<Configuration__c> configurations=new List<Configuration__c>();
-			configurations=[SELECT Related_To__c,Related_To_Value__c FROM Configuration__c WHERE Name =: System_Constant.ASSIGNMENT_MANAGER AND Related_To__c=:objectName AND Related_To_Value__c='true'];
+			configurations=[SELECT Related_To__c,Related_To_Value__c FROM Configuration__c WHERE Name =: System_Constant.ASSIGNMENT_MANAGER AND Related_To__c=:objectName];
 
 			if(configurations.size()==0){
 				Configuration__c pc =new Configuration__c();
