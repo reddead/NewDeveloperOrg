@@ -136,14 +136,14 @@
 		var self = this;
 
 		var fields = component.find('field');
-		if (fields[0]) {
-			fields.splice(-1,1);//remove last empty criteria field
-		}
-		else{
-			this.Util_Spinner.set('v.show', false);
-			self.defaultCloseAction(component);
-			return;
-		}
+		fields.splice(-1,1);//remove last empty criteria field
+		if(fields.length==0)
+			fields=undefined;
+		// if (!fields[0]) {
+		// 	this.Util_Spinner.set('v.show', false);
+		// 	self.defaultCloseAction(component);
+		// 	return;
+		// }
 
 		var dateFields = component.find('dateField');
 		var criteriaValueLookupFields = component.find('criteriaValueLookup');
@@ -179,7 +179,7 @@
 						//fieldValue += encodeURIComponent(value) + ',';
 						fieldValue += value + '<#>';
 					});
-					criteria.fieldValue = fieldValue.substr(0, fieldValue.length - 1);
+					criteria.fieldValue = fieldValue.substr(0, fieldValue.length - 3);
 				}
 			}
 
@@ -190,7 +190,7 @@
 						//fieldValue += encodeURIComponent(value) + ';';
 						fieldValue += value + '<#>';
 					});
-					criteria.fieldValue = fieldValue.substr(0, fieldValue.length - 1);
+					criteria.fieldValue = fieldValue.substr(0, fieldValue.length - 3);
 				}
 			}
 
