@@ -11,16 +11,16 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 
 		public static List<Configuration__c> configurations=[SELECT Related_To__c,Related_To_Value__c FROM Configuration__c WHERE Name =: System_Constant.ASSIGNMENT_MANAGER];
 
-		public static Map<String,String> ObjectName_IsFireOnUpdate{
-			get{
-				ObjectName_IsFireOnUpdate=new Map<String,String>();
-				if(configurations.size()>0){
-					for(Configuration__c configuration:configurations)
-							ObjectName_IsFireOnUpdate.put(configuration.Related_To__c,configuration.Related_To_Value__c);
+		public static Map<String,String> ObjectName_IsFireOnUpdate {
+				get {
+						ObjectName_IsFireOnUpdate=new Map<String,String>();
+						if(configurations.size()>0) {
+								for(Configuration__c configuration:configurations)
+										ObjectName_IsFireOnUpdate.put(configuration.Related_To__c,configuration.Related_To_Value__c);
+						}
+						return ObjectName_IsFireOnUpdate;
 				}
-				return ObjectName_IsFireOnUpdate;
-			}
-			set;
+				set;
 		}
 
 		public void execute() {
@@ -34,10 +34,10 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 
 				//if not activated for this SOject type
 				if(!ObjectName_IsFireOnUpdate.containsKey(sObjectName))
-					return;
+						return;
 				//if fire on update not required for this SOject type, dont fire assignment rule on update
 				else if(ObjectName_IsFireOnUpdate.get(sObjectName)!='Fire On Update' && Trigger.isUpdate)
-					return;
+						return;
 
 				List<Assignment_Rule__c> rules=[Select Id, Active__c, Fire_On_Update__c,(Select Id,Criteria_Logic__c,Criteria_Set__c,Order__c,Assign_To_User__c,Assign_To_Queue__c From Assignment_Rule_Entries__r Order By Order__c) From Assignment_Rule__c Where Related_Object__c=: sObjectName And Active__c=true];
 
@@ -82,10 +82,10 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 								system.debug('>>>toUpdateSObjectList: '+toUpdateSObjectList);
 
 								//update gathered SObjectList for assignent rule
-								if(toUpdateSObjectList.size()!=0){
-									System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.put(sObjectName,true);
-									update toUpdateSObjectList;
-									System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.put(sObjectName,false);
+								if(toUpdateSObjectList.size()!=0) {
+										System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.put(sObjectName,true);
+										update toUpdateSObjectList;
+										System_FeatureAssignmentRule.TriggerObjectName_IsARExecuting.put(sObjectName,false);
 								}
 						}
 				}
@@ -267,13 +267,24 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 				return CriteriaOrder_CriteriaEvaluation;
 		}
 
+		String replaceSplitComma(String fieldType,String criteriaValue){
+				if(fieldType!='picklist') {
+						criteriaValue=criteriaValue.replace(',','<#>');
+						criteriaValue=criteriaValue.replace('\\<#>','\\,');
+				}
+				return criteriaValue;
+		}
+
 		Boolean doEvaluation(String fieldType, String operator, String targetValue, String criteriaValue){
 				operator = operator.toLowerCase();
 				if(operator==Lightning_Constant.EQUALS) {
 						if(fieldType=='string'||fieldType=='picklist'||fieldType=='phone'||fieldType=='textarea'||fieldType=='email'||fieldType=='double'||fieldType=='url') {
-								List<String> criteriaValueList=criteriaValue.split(',');
+								criteriaValue=replaceSplitComma(fieldType,criteriaValue);
+								List<String> criteriaValueList=criteriaValue.split('<#>');
 								Boolean criteriaEvaluation=false;
 								for(String cv:criteriaValueList) {
+										cv=cv.trim();
+										cv=cv.replace('\\,',',');
 										if(targetValue==cv) {
 												criteriaEvaluation=true;
 												break;
@@ -286,9 +297,12 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 				}
 				else if(operator==Lightning_Constant.DOSE_NOT_EQUAL) {
 						if(fieldType=='string'||fieldType=='picklist'||fieldType=='phone'||fieldType=='textarea'||fieldType=='email'||fieldType=='double'||fieldType=='url') {
-								List<String> criteriaValueList=criteriaValue.split(',');
+								criteriaValue=replaceSplitComma(fieldType,criteriaValue);
+								List<String> criteriaValueList=criteriaValue.split('<#>');
 								Boolean criteriaEvaluation=true;
 								for(String cv:criteriaValueList) {
+										cv=cv.trim();
+										cv=cv.replace('\\,',',');
 										if(targetValue==cv) {
 												criteriaEvaluation=false;
 												break;
@@ -301,9 +315,12 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 				}
 				else if(operator==Lightning_Constant.STARTS_WITH) {
 						if(fieldType=='string'||fieldType=='picklist'||fieldType=='phone'||fieldType=='textarea'||fieldType=='email'||fieldType=='double'||fieldType=='url') {
-								List<String> criteriaValueList=criteriaValue.split(',');
+								criteriaValue=replaceSplitComma(fieldType,criteriaValue);
+								List<String> criteriaValueList=criteriaValue.split('<#>');
 								Boolean criteriaEvaluation=false;
 								for(String cv:criteriaValueList) {
+										cv=cv.trim();
+										cv=cv.replace('\\,',',');
 										if(targetValue.startsWith(cv)) {
 												criteriaEvaluation=true;
 												break;
@@ -316,9 +333,12 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 				}
 				else if(operator==Lightning_Constant.ENDS_WITH) {
 						if(fieldType=='string'||fieldType=='picklist'||fieldType=='phone'||fieldType=='textarea'||fieldType=='email'||fieldType=='double'||fieldType=='url') {
-								List<String> criteriaValueList=criteriaValue.split(',');
+								criteriaValue=replaceSplitComma(fieldType,criteriaValue);
+								List<String> criteriaValueList=criteriaValue.split('<#>');
 								Boolean criteriaEvaluation=false;
 								for(String cv:criteriaValueList) {
+										cv=cv.trim();
+										cv=cv.replace('\\,',',');
 										if(targetValue.endsWith(cv)) {
 												criteriaEvaluation=true;
 												break;
@@ -331,9 +351,12 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 				}
 				else if(operator==Lightning_Constant.CONTAINS) {
 						if(fieldType=='string'||fieldType=='picklist'||fieldType=='phone'||fieldType=='textarea'||fieldType=='email'||fieldType=='double'||fieldType=='url') {
-								List<String> criteriaValueList=criteriaValue.split(',');
+								criteriaValue=replaceSplitComma(fieldType,criteriaValue);
+								List<String> criteriaValueList=criteriaValue.split('<#>');
 								Boolean criteriaEvaluation=false;
 								for(String cv:criteriaValueList) {
+										cv=cv.trim();
+										cv=cv.replace('\\,',',');
 										if(targetValue.contains(cv)) {
 												criteriaEvaluation=true;
 												break;
@@ -346,9 +369,12 @@ global class System_FeatureAssignmentRule implements System_IFeature {
 				}
 				else if(operator==Lightning_Constant.DOES_NOT_CONTAIN) {
 						if(fieldType=='string'||fieldType=='picklist'||fieldType=='phone'||fieldType=='textarea'||fieldType=='email'||fieldType=='double'||fieldType=='url') {
-								List<String> criteriaValueList=criteriaValue.split(',');
+								criteriaValue=replaceSplitComma(fieldType,criteriaValue);
+								List<String> criteriaValueList=criteriaValue.split('<#>');
 								Boolean criteriaEvaluation=true;
 								for(String cv:criteriaValueList) {
+										cv=cv.trim();
+										cv=cv.replace('\\,',',');
 										if(!targetValue.contains(cv)) {
 												criteriaEvaluation=false;
 												break;

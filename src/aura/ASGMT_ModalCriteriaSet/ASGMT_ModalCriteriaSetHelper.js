@@ -1,15 +1,20 @@
 ({
 	nameSpacePrefix: '',
+	objectName: '',
 	record: null,
 	Util_Notify: null,
 	Util_Spinner: null,
 
 	doInit: function(component) {
 		this.nameSpacePrefix = component.get('v.config').nameSpacePrefix;
+		this.objectName = component.get('v.objectName');
 		this.record = component.get('v.record');
 		this.Util_Notify = component.find('Util_Notify');
 		this.Util_Spinner = component.find('Util_Spinner');
 
+		if (this.objectName.indexOf('Assignment_Rule_Entry__c') != -1)
+		component.set("v.cssStyle", ".forceStyle .viewport .oneHeader.slds-global-header_container {z-index:0;}");
+	else
 		component.set("v.cssStyle", ".forceStyle .viewport .oneHeader.slds-global-header_container {z-index:0;} .forceStyle.desktop .viewport{overflow:hidden}");
 	},
 
@@ -51,15 +56,14 @@
 							criteria.options = self.setCriteriaOptions(component, criteria.lastObjectName, criteria.lastFieldName);
 
 							if (criteria.fieldType == 'picklist' && criteria.fieldValue){
-								criteria.fieldValue = criteria.fieldValue.split(',');
-								for(i=0;i<criteria.fieldValue.length;i++)
-									criteria.fieldValue[i]=decodeURIComponent(criteria.fieldValue[i]);
-
+								criteria.fieldValue = criteria.fieldValue.split('<#>');
+								// for(i=0;i<criteria.fieldValue.length;i++)
+								// 	criteria.fieldValue[i]=decodeURIComponent(criteria.fieldValue[i]);
 							}
 							else if (criteria.fieldType == 'multipicklist' && criteria.fieldValue){
-								criteria.fieldValue = criteria.fieldValue.split(';');
-								for(i=0;i<criteria.fieldValue.length;i++)
-									criteria.fieldValue[i]=decodeURIComponent(criteria.fieldValue[i]);
+								criteria.fieldValue = criteria.fieldValue.split('<#>');
+								// for(i=0;i<criteria.fieldValue.length;i++)
+								// 	criteria.fieldValue[i]=decodeURIComponent(criteria.fieldValue[i]);
 							}
 						}
 						if (criteria.fieldType == 'boolean')
@@ -172,7 +176,8 @@
 				if (criteria.fieldValue) {
 					fieldValue = '';
 					criteria.fieldValue.forEach(function(value) {
-						fieldValue += encodeURIComponent(value) + ',';
+						//fieldValue += encodeURIComponent(value) + ',';
+						fieldValue += value + '<#>';
 					});
 					criteria.fieldValue = fieldValue.substr(0, fieldValue.length - 1);
 				}
@@ -182,7 +187,8 @@
 				if (criteria.fieldValue) {
 					fieldValue = '';
 					criteria.fieldValue.forEach(function(value) {
-						fieldValue += encodeURIComponent(value) + ';';
+						//fieldValue += encodeURIComponent(value) + ';';
+						fieldValue += value + '<#>';
 					});
 					criteria.fieldValue = fieldValue.substr(0, fieldValue.length - 1);
 				}
